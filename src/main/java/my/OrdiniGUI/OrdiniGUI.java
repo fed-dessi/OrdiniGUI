@@ -371,6 +371,100 @@ public class OrdiniGUI extends javax.swing.JFrame {
             }
     }
     
+    private void salva(){
+        if(!(CodiceCliente.getText().equals(""))){
+            try{
+                String sql = "Insert into ordini (CodiceCliente,Nome,Cognome,Telefono1,Telefono2,Email,dRitiro,Spedizione,SpedPagata,Indirizzo,CAP,Citta,Provincia,MPagamento,Tracking,Note,LibriTrovati,Spacchettato,Ritirato) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                Statement = conn.prepareStatement(sql);
+                ValoriSpedizione();
+                String Ritirato = null;
+                String Spacchettato = null;
+                if(ritirato.isSelected()){
+                    Ritirato = "SI";
+                }else 
+                    Ritirato = "NO";
+                if(spacchettato.isSelected()){
+                    Spacchettato = "SI";
+                }else 
+                    Spacchettato = "NO";
+                
+                Statement.setString(1, CodiceCliente.getText());
+                Statement.setString(2, Nome.getText());
+                Statement.setString(3, Cognome.getText());
+                Statement.setString(4, Tel1.getText());
+                Statement.setString(5, Tel2.getText());
+                Statement.setString(6, Email.getText());
+                Statement.setString(7,DataRitiro.getText());
+                Statement.setString(8, Spedizione);
+                Statement.setString(9, SpedizionePagata);
+                Statement.setString(10, Indirizzo.getText());
+                Statement.setString(11, CAP.getText());
+                Statement.setString(12, Citta.getText());
+                Statement.setString(13, Provincia.getText());
+                Statement.setString(14, MPagamento);
+                Statement.setString(15, Tracking.getText());
+                Statement.setString(16, note.getText());
+                Statement.setString(17, libriTrovati.getText());
+                Statement.setString(18, Spacchettato);
+                Statement.setString(19, Ritirato);
+
+                Statement.execute();
+                Statement.close();
+                conn.close();
+                
+                this.Spedizione = null;
+                this.SpedizionePagata = null;
+                this.MPagamento = null;
+                
+                //Se abbiamo l'email allora entriamo dentro il metodo
+                if(Email.getText() != null && !Email.getText().equals("")){
+                    //Caso 1: Abbiamo il telefono
+                    if((Tel1.getText() != null && !Tel1.getText().equals("")) || (Tel2.getText() != null && !Tel2.getText().equals(""))){
+                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", "Gentile cliente, <br><br> "
+                                                                                                                     + "La ringraziamo per il suo ordine. <br><br>"
+                                                                                                                     + "<b>Il suo codice cliente e': "+ CodiceCliente.getText()+"</b>.");
+                        TestoEmail.sendMessage(service, "me", email);
+                    } 
+                    //Caso 2: Non abbiamo il telefono
+                    else{
+                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", "Gentile cliente, <br><br> "
+                                                                                                                     + "La ringraziamo per il suo ordine. <br><br>"
+                                                                                                                     + "<font color = red><b>Le ricordiamo che abbiamo la necessita' di un numero di telefono per contattarla.</b></font><br><br>"
+                                                                                                                     + "<b>Il suo codice cliente e': "+ CodiceCliente.getText()+"</b>.");
+                        TestoEmail.sendMessage(service, "me", email);
+                        
+                    }
+                    
+                }
+                
+                update_table();
+                
+                DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                Calendar cal = Calendar.getInstance();
+                info.setText(dateFormat.format(cal.getTime())+": Codice Cliente "+ CodiceCliente.getText() +" creato.");
+                enablerFromAction();
+                clear_fields();
+                
+                //Imposto la selezione sull'ultima riga e scrollo li
+                int lastRow = get_clienti.convertRowIndexToView(get_clienti.getModel().getRowCount() - 1);
+                get_clienti.setRowSelectionInterval(lastRow, lastRow);
+                get_clienti.scrollRectToVisible(get_clienti.getCellRect(get_clienti.getRowCount()-1, 0, true));
+
+            }catch(SQLException e){
+                if (e.getErrorCode() == 19){
+                    JOptionPane.showMessageDialog(null, "Codice Cliente già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                }else{
+                JOptionPane.showMessageDialog(null, e);
+                }
+            } catch( MessagingException | IOException ex){
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private void aggiornaTabelle(){
         update_table();
         populate_table_spedizioni();
@@ -1249,7 +1343,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel1Layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel11)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(search_for, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btn_salva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_aggiorna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1257,129 +1355,125 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_cancella, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(81, 81, 81)
                     .addComponent(emailTemp)
-                    .addGap(34, 34, 34)
+                    .addGap(18, 18, 18)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btn_stampa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(77, 77, 77))
+                        .addComponent(btn_refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabel10)
+                .addComponent(jLabel21)
+                .addComponent(jLabel8)
+                .addComponent(jLabel16)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(6, 6, 6)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Sped)
+                        .addComponent(ritirato))
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(PagSped)
+                            .addGap(17, 17, 17)
+                            .addComponent(jLabel18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cb_mpag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(spacchettato)))
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addGap(18, 18, 18)
-                            .addComponent(Tel2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel5)
-                            .addGap(27, 27, 27)
-                            .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel16)
-                        .addComponent(jLabel2)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Sped)
-                                .addComponent(ritirato))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(PagSped)
-                                    .addGap(17, 17, 17)
-                                    .addComponent(jLabel18)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cb_mpag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(spacchettato)))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(73, 73, 73)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(Cognome, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(CodiceCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel1)))
-                                .addComponent(jLabel9))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Tel1)
-                                .addComponent(Nome))))
-                    .addGap(0, 0, Short.MAX_VALUE))
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(15, 15, 15)
-                                .addComponent(Indirizzo, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(DataRitiro, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(15, 15, 15)
-                                .addComponent(Citta, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(Tel2, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Tracking, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jLabel10)
+                                .addComponent(Tracking, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel13))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(23, 23, 23)
+                                        .addComponent(jLabel14)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(DataRitiro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                    .addComponent(Indirizzo, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Citta))))
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel2)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel11)
+                            .addGap(73, 73, 73)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Cognome, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                .addComponent(CodiceCliente))))
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel5))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(search_for, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel21)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Nome)
+                                .addComponent(Tel1)
+                                .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(288, 288, 288)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel12)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(CAP, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel15)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(Provincia, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel23)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(libriTrovati, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(CAP)
+                                .addComponent(libriTrovati)
+                                .addComponent(Provincia, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(20, 20, 20)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(550, 550, 550)
                     .addComponent(info)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addContainerGap())
+                    .addGap(489, 489, 489))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING)))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGap(9, 9, 9)
+            .addContainerGap()
             .addComponent(jLabel8)
             .addGap(18, 18, 18)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel9)
-                .addComponent(CodiceCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel1)
-                .addComponent(Nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2)
-                .addComponent(Cognome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel3)
-                .addComponent(Tel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel4)
-                .addComponent(Tel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel5)
-                .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(CodiceCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(Cognome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(Tel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(Nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(Tel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGap(31, 31, 31)
             .addComponent(jLabel16)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1423,8 +1517,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addGap(18, 18, 18)
             .addComponent(jLabel21)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(23, 23, 23)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(41, 41, 41)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_salva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1435,7 +1529,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addComponent(btn_aggiorna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_cancella, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_refresh))
-            .addGap(34, 34, 34))
+            .addContainerGap())
         .addGroup(jPanel1Layout.createSequentialGroup()
             .addComponent(jScrollPane6)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1497,7 +1591,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(btnModificaModificaMultipla)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
+        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1590, Short.MAX_VALUE)
     );
     jPanel9Layout.setVerticalGroup(
         jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1510,7 +1604,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     .addComponent(btnModificaModificaMultipla))
                 .addComponent(btnModificaMultipla))
             .addGap(10, 10, 10)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE))
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
     );
 
     Pannello.addTab("Modifica Multipla", jPanel9);
@@ -1568,7 +1662,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel2Layout.createSequentialGroup()
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 589, Short.MAX_VALUE))
+            .addGap(0, 960, Short.MAX_VALUE))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1577,7 +1671,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addComponent(btn_ritirioggi)
                 .addComponent(btn_stampaoggi))
             .addGap(41, 41, 41)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))
     );
 
     Pannello.addTab("Ritiri Oggi", jPanel2);
@@ -1634,7 +1728,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 589, Short.MAX_VALUE))
+            .addGap(0, 960, Short.MAX_VALUE))
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1643,7 +1737,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addComponent(btn_ritiridomani)
                 .addComponent(btn_stampadomani))
             .addGap(41, 41, 41)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))
     );
 
     Pannello.addTab("Ritiri Domani", jPanel3);
@@ -1704,7 +1798,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addGap(85, 85, 85)
             .addComponent(btn_ritiriPerGiorno)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1590, Short.MAX_VALUE)
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1720,7 +1814,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addComponent(giornoRitiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE))))
     );
 
     Pannello.addTab("Ritiri per Giorno", jPanel4);
@@ -1746,10 +1840,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel5Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioni)
-            .addGap(0, 1112, Short.MAX_VALUE))
+            .addGap(0, 1483, Short.MAX_VALUE))
         .addGroup(jPanel5Layout.createSequentialGroup()
             .addGap(19, 19, 19)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1561, Short.MAX_VALUE)
             .addContainerGap())
     );
     jPanel5Layout.setVerticalGroup(
@@ -1758,7 +1852,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap()
             .addComponent(btn_spedizioni)
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
             .addGap(55, 55, 55))
     );
 
@@ -1815,11 +1909,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addComponent(jLabel24)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(cercaEvasi, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(660, Short.MAX_VALUE))
+            .addContainerGap(1031, Short.MAX_VALUE))
         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1561, Short.MAX_VALUE)
                 .addGap(15, 15, 15)))
     );
     jPanel7Layout.setVerticalGroup(
@@ -1830,11 +1924,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addComponent(btn_evasi)
                 .addComponent(jLabel24)
                 .addComponent(cercaEvasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(643, Short.MAX_VALUE))
+            .addContainerGap(645, Short.MAX_VALUE))
         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addGap(55, 55, 55)))
     );
 
@@ -1879,11 +1973,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel8Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioniEvase)
-            .addContainerGap(1112, Short.MAX_VALUE))
+            .addContainerGap(1483, Short.MAX_VALUE))
         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1561, Short.MAX_VALUE)
                 .addGap(15, 15, 15)))
     );
     jPanel8Layout.setVerticalGroup(
@@ -1891,11 +1985,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel8Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioniEvase)
-            .addContainerGap(648, Short.MAX_VALUE))
+            .addContainerGap(650, Short.MAX_VALUE))
         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addGap(55, 55, 55)))
     );
 
@@ -2023,7 +2117,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(Pannello, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
+        .addComponent(Pannello, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
     );
 
     pack();
@@ -2229,81 +2323,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_search_forKeyReleased
 
     private void btn_salvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvaActionPerformed
-        if(!(CodiceCliente.getText().equals(""))){
-            try{
-                String sql = "Insert into ordini (CodiceCliente,Nome,Cognome,Telefono1,Telefono2,Email,dRitiro,Spedizione,SpedPagata,Indirizzo,CAP,Citta,Provincia,MPagamento,Tracking,Note,LibriTrovati,Spacchettato,Ritirato) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-                Statement = conn.prepareStatement(sql);
-                ValoriSpedizione();
-                String Ritirato = null;
-                String Spacchettato = null;
-                if(ritirato.isSelected()){
-                    Ritirato = "SI";
-                }else 
-                    Ritirato = "NO";
-                if(spacchettato.isSelected()){
-                    Spacchettato = "SI";
-                }else 
-                    Spacchettato = "NO";
-                
-                Statement.setString(1, CodiceCliente.getText());
-                Statement.setString(2, Nome.getText());
-                Statement.setString(3, Cognome.getText());
-                Statement.setString(4, Tel1.getText());
-                Statement.setString(5, Tel2.getText());
-                Statement.setString(6, Email.getText());
-                Statement.setString(7,DataRitiro.getText());
-                Statement.setString(8, Spedizione);
-                Statement.setString(9, SpedizionePagata);
-                Statement.setString(10, Indirizzo.getText());
-                Statement.setString(11, CAP.getText());
-                Statement.setString(12, Citta.getText());
-                Statement.setString(13, Provincia.getText());
-                Statement.setString(14, MPagamento);
-                Statement.setString(15, Tracking.getText());
-                Statement.setString(16, note.getText());
-                Statement.setString(17, libriTrovati.getText());
-                Statement.setString(18, Spacchettato);
-                Statement.setString(19, Ritirato);
-
-                Statement.execute();
-                Statement.close();
-                conn.close();
-                
-                this.Spedizione = null;
-                this.SpedizionePagata = null;
-                this.MPagamento = null;
-                
-                MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", "Gentile cliente, <br> "
-                                                                                                             + "La ringraziamo per il suo ordine. <br>"
-                                                                                                             + "<b>Il suo codice cliente e': "+ CodiceCliente.getText()+"</b>.");
-                TestoEmail.sendMessage(service, "me", email);
-                
-                update_table();
-                
-                DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                Calendar cal = Calendar.getInstance();
-                info.setText(dateFormat.format(cal.getTime())+": Codice Cliente "+ CodiceCliente.getText() +" creato.");
-                enablerFromAction();
-                clear_fields();
-                
-                //Imposto la selezione sull'ultima riga e scrollo li
-                int lastRow = get_clienti.convertRowIndexToView(get_clienti.getModel().getRowCount() - 1);
-                get_clienti.setRowSelectionInterval(lastRow, lastRow);
-                get_clienti.scrollRectToVisible(get_clienti.getCellRect(get_clienti.getRowCount()-1, 0, true));
-
-            }catch(SQLException e){
-                if (e.getErrorCode() == 19){
-                    JOptionPane.showMessageDialog(null, "Codice Cliente già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                }else{
-                JOptionPane.showMessageDialog(null, e);
-                }
-            } catch( MessagingException | IOException ex){
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+        salva();
     }//GEN-LAST:event_btn_salvaActionPerformed
 
     private void btn_aggiornaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiornaActionPerformed
@@ -2473,65 +2493,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mn_stampadomaniActionPerformed
 
     private void mn_salvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mn_salvaActionPerformed
-    if(!(CodiceCliente.getText().equals(""))){
-            try{
-                String sql = "Insert into ordini (CodiceCliente,Nome,Cognome,Telefono1,Telefono2,Email,dRitiro,Spedizione,SpedPagata,Indirizzo,CAP,Citta,Provincia,MPagamento,Tracking,Note,LibriTrovati,Ritirato,Spacchettato) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-                Statement = conn.prepareStatement(sql);
-                ValoriSpedizione();
-                
-                String Ritirato = null;
-                String Spacchettato = null;
-                if(ritirato.isSelected()){
-                    Ritirato = "SI";
-                }else 
-                    Ritirato = "NO";
-                if(spacchettato.isSelected()){
-                    Spacchettato = "SI";
-                }else 
-                    Spacchettato = "NO";
-                
-                Statement.setString(1, CodiceCliente.getText());
-                Statement.setString(2, Nome.getText());
-                Statement.setString(3, Cognome.getText());
-                Statement.setString(4, Tel1.getText());
-                Statement.setString(5, Tel2.getText());
-                Statement.setString(6, Email.getText());
-                Statement.setString(7,DataRitiro.getText());
-                Statement.setString(8, Spedizione);
-                Statement.setString(9, SpedizionePagata);
-                Statement.setString(10, Indirizzo.getText());
-                Statement.setString(11, CAP.getText());
-                Statement.setString(12, Citta.getText());
-                Statement.setString(13, Provincia.getText());
-                Statement.setString(14, MPagamento);
-                Statement.setString(15, Tracking.getText());
-                Statement.setString(16, note.getText());
-                Statement.setString(17, libriTrovati.getText());
-                Statement.setString(18, Ritirato);
-                Statement.setString(19, Spacchettato);
-
-                Statement.execute();
-                Statement.close();
-                conn.close();
-                update_table();
-                
-                DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                Calendar cal = Calendar.getInstance();
-                info.setText(dateFormat.format(cal.getTime())+": Codice Cliente "+ CodiceCliente.getText() +" creato.");
-                
-                clear_fields();
-
-            }catch(SQLException e){
-                if (e.getErrorCode() == 19){
-                    JOptionPane.showMessageDialog(null, "Codice Cliente già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, e);
-                }
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+        salva();
     }//GEN-LAST:event_mn_salvaActionPerformed
 
     private void btn_nuovoDbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuovoDbActionPerformed

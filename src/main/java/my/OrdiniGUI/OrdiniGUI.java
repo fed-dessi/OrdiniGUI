@@ -233,8 +233,15 @@ public class OrdiniGUI extends javax.swing.JFrame {
                               " Spacchettato VARCHAR(5), " + 
                               " Ritirato VARCHAR(5), " + 
                               " PRIMARY KEY ( CodiceCliente ))";
+                String sql2 = "CREATE TABLE email " +
+                              "(EmailConTelefono VARCHAR(5000), " +
+                              " EmailSenzaTelefono VARCHAR(5000), " +
+                              " EmailNoLibri VARCHAR(5000))";
                     conn = DriverManager.getConnection("jdbc:sqlite:" + fileName);
                     Statement = conn.prepareStatement(sql1);
+                    Statement.execute();
+                    Statement.close();
+                    Statement = conn.prepareStatement(sql2);
                     Statement.execute();
                     Statement.close();
                     conn.close();
@@ -418,25 +425,37 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 this.MPagamento = null;
                 
                 //Se abbiamo l'email allora entriamo dentro il metodo
+                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
                 if(Email.getText() != null && !Email.getText().equals("")){
                     //Caso 1: Abbiamo il telefono
                     if((Tel1.getText() != null && !Tel1.getText().equals("")) || (Tel2.getText() != null && !Tel2.getText().equals(""))){
-                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", "Gentile cliente, <br><br> "
-                                                                                                                     + "La ringraziamo per il suo ordine. <br><br>"
-                                                                                                                     + "<b>Il suo codice cliente e': "+ CodiceCliente.getText()+"</b>.");
+                        
+                        sql = "select EmailConTelefono from email";
+                        Statement = conn.prepareStatement(sql);
+                        rs = Statement.executeQuery();
+                        String testoEmail = rs.getString("EmailConTelefono");
+                        testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+                        
+                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
                         TestoEmail.sendMessage(service, "me", email);
                     } 
                     //Caso 2: Non abbiamo il telefono
                     else{
-                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", "Gentile cliente, <br><br> "
-                                                                                                                     + "La ringraziamo per il suo ordine. <br><br>"
-                                                                                                                     + "<font color = red><b>Le ricordiamo che abbiamo la necessita' di un numero di telefono per contattarla.</b></font><br><br>"
-                                                                                                                     + "<b>Il suo codice cliente e': "+ CodiceCliente.getText()+"</b>.");
+
+                        sql = "select EmailSenzaTelefono from email";
+                        Statement = conn.prepareStatement(sql);
+                        rs = Statement.executeQuery();
+                        String testoEmail = rs.getString("EmailSenzaTelefono");
+                        testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+                        
+                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
                         TestoEmail.sendMessage(service, "me", email);
                         
                     }
                     
                 }
+                Statement.close();
+                conn.close();
                 
                 update_table();
                 
@@ -686,19 +705,19 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private void aggiorna(){
         if(!(CodiceCliente.getText().equals(""))){
             try{
-                String val0 = CodiceCliente.getText();
-                String val1 = Nome.getText();
-                String val2 = Cognome.getText();
+                String val0 = CodiceCliente.getText().replace("'","''");
+                String val1 = Nome.getText().replace("'","''");
+                String val2 = Cognome.getText().replace("'","''");
                 String val3 = Tel1.getText();
                 String val4 = Tel2.getText();
                 String val5 = Email.getText();
                 String val6 = DataRitiro.getText();
-                String val7 = Indirizzo.getText();
+                String val7 = Indirizzo.getText().replace("'","''");
                 String val8 = CAP.getText();
-                String val9 = Citta.getText();
-                String val10 = Provincia.getText();
-                String val11 = Tracking.getText();
-                String val12 = note.getText();
+                String val9 = Citta.getText().replace("'","''");
+                String val10 = Provincia.getText().replace("'","''");
+                String val11 = Tracking.getText().replace("'","''");
+                String val12 = note.getText().replace("'","''");
                 String val13 = libriTrovati.getText();
                 
                 String Ritirato = null;
@@ -819,6 +838,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         Impostazioni = new javax.swing.JFrame();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -829,6 +849,14 @@ public class OrdiniGUI extends javax.swing.JFrame {
         btn_nuovoDb = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         dbCorrente = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        cbEmailImpostazioni = new javax.swing.JComboBox<>();
+        lblEmailImpostazioni = new javax.swing.JLabel();
+        visualizzaEmailImpostazioni = new javax.swing.JButton();
+        salvaEmailImpostazioni = new javax.swing.JButton();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        epEmailImpostazioni = new javax.swing.JEditorPane();
+        jButton1 = new javax.swing.JButton();
         InvioEmail = new javax.swing.JFrame();
         jPanel10 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
@@ -1004,9 +1032,6 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         .addGap(16, 16, 16)
                         .addComponent(btn_closeImp))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jLabel19))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20)
@@ -1017,8 +1042,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         .addComponent(btn_impDb))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(dbCorrente)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                        .addComponent(dbCorrente))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel19)))
+                .addContainerGap(280, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1042,15 +1070,87 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTabbedPane1.addTab("Database", jPanel6);
+
+        cbEmailImpostazioni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Email con Telefono", "Email senza Telefono", "Nessun libro Trovato" }));
+
+        lblEmailImpostazioni.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblEmailImpostazioni.setText("IMPOSTAZIONI DATABASE CLIENTI");
+
+        visualizzaEmailImpostazioni.setText("Visualizza");
+        visualizzaEmailImpostazioni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizzaEmailImpostazioniActionPerformed(evt);
+            }
+        });
+
+        salvaEmailImpostazioni.setText("Salva");
+        salvaEmailImpostazioni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salvaEmailImpostazioniActionPerformed(evt);
+            }
+        });
+
+        epEmailImpostazioni.setContentType("text/html"); // NOI18N
+        jScrollPane12.setViewportView(epEmailImpostazioni);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/immagini/info.png"))); // NOI18N
+        jButton1.setToolTipText("<html>\nPer inserire il codice cliente usare la stringa:<br><br>\n\n\"<b>%s</b>\" (senza virgolette)\n</html>");
+        jButton1.setMaximumSize(new java.awt.Dimension(25, 25));
+        jButton1.setMinimumSize(new java.awt.Dimension(25, 25));
+        jButton1.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane12)
+                            .addGroup(jPanel11Layout.createSequentialGroup()
+                                .addComponent(lblEmailImpostazioni)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(cbEmailImpostazioni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(visualizzaEmailImpostazioni)
+                        .addGap(136, 136, 136)
+                        .addComponent(salvaEmailImpostazioni)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(89, 89, 89))))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblEmailImpostazioni)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbEmailImpostazioni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(visualizzaEmailImpostazioni)
+                    .addComponent(salvaEmailImpostazioni)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Email", jPanel11);
+
         javax.swing.GroupLayout ImpostazioniLayout = new javax.swing.GroupLayout(Impostazioni.getContentPane());
         Impostazioni.getContentPane().setLayout(ImpostazioniLayout);
         ImpostazioniLayout.setHorizontalGroup(
             ImpostazioniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
         );
         ImpostazioniLayout.setVerticalGroup(
             ImpostazioniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
 
         jLabel25.setText("Destinatario");
@@ -1385,26 +1485,25 @@ public class OrdiniGUI extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addGap(18, 18, 18)
                             .addComponent(Tel2, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Tracking, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel13))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(23, 23, 23)
-                                        .addComponent(jLabel14)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(DataRitiro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                                    .addComponent(Indirizzo, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Citta))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(jLabel17)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(Tracking, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addComponent(jLabel13))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(23, 23, 23)
+                                    .addComponent(jLabel14)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(DataRitiro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                .addComponent(Indirizzo, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Citta)))
                         .addComponent(jLabel9)
                         .addComponent(jLabel2)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -1437,11 +1536,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(20, 20, 20)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(550, 550, 550)
                     .addComponent(info)
-                    .addGap(489, 489, 489))
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGap(0, 0, Short.MAX_VALUE))))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1532,9 +1630,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap())
         .addGroup(jPanel1Layout.createSequentialGroup()
             .addComponent(jScrollPane6)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(info)
-            .addGap(46, 46, 46))
+            .addGap(41, 41, 41))
     );
 
     Pannello.addTab("Inserimento", jPanel1);
@@ -1591,7 +1689,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(btnModificaModificaMultipla)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1590, Short.MAX_VALUE)
+        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1612, Short.MAX_VALUE)
     );
     jPanel9Layout.setVerticalGroup(
         jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1662,7 +1760,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel2Layout.createSequentialGroup()
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 960, Short.MAX_VALUE))
+            .addGap(0, 982, Short.MAX_VALUE))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1728,7 +1826,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 960, Short.MAX_VALUE))
+            .addGap(0, 982, Short.MAX_VALUE))
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1798,7 +1896,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addGap(85, 85, 85)
             .addComponent(btn_ritiriPerGiorno)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1590, Short.MAX_VALUE)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1612, Short.MAX_VALUE)
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1840,10 +1938,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel5Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioni)
-            .addGap(0, 1483, Short.MAX_VALUE))
+            .addGap(0, 1505, Short.MAX_VALUE))
         .addGroup(jPanel5Layout.createSequentialGroup()
             .addGap(19, 19, 19)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1561, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1583, Short.MAX_VALUE)
             .addContainerGap())
     );
     jPanel5Layout.setVerticalGroup(
@@ -1909,11 +2007,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addComponent(jLabel24)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(cercaEvasi, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(1031, Short.MAX_VALUE))
+            .addContainerGap(1053, Short.MAX_VALUE))
         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1561, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1583, Short.MAX_VALUE)
                 .addGap(15, 15, 15)))
     );
     jPanel7Layout.setVerticalGroup(
@@ -1973,11 +2071,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel8Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioniEvase)
-            .addContainerGap(1483, Short.MAX_VALUE))
+            .addContainerGap(1505, Short.MAX_VALUE))
         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1561, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1583, Short.MAX_VALUE)
                 .addGap(15, 15, 15)))
     );
     jPanel8Layout.setVerticalGroup(
@@ -2421,7 +2519,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private void mn_impostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mn_impostazioniActionPerformed
         
         Impostazioni.setVisible(true);
-        Impostazioni.setMinimumSize(new Dimension(489, 244));
+        Impostazioni.setMinimumSize(new Dimension(727, 460));
         dbCorrente.setText(dbPath);
     }//GEN-LAST:event_mn_impostazioniActionPerformed
 
@@ -2602,6 +2700,69 @@ public class OrdiniGUI extends javax.swing.JFrame {
         InvioEmail.setVisible(true);
     }//GEN-LAST:event_emailTempActionPerformed
 
+    private void visualizzaEmailImpostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaEmailImpostazioniActionPerformed
+        int selezione = cbEmailImpostazioni.getSelectedIndex();
+        String sql;
+        ResultSet rs;
+        //Usiamo uno switch per scegliere quali delle tre opzioni usare
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            switch (selezione){
+                case 0: sql = "select EmailConTelefono from email";
+                        Statement = conn.prepareStatement(sql);
+                        rs = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs.getString("EmailConTelefono"));
+                        break;
+                case 1: sql = "select EmailSenzaTelefono from email";
+                        Statement = conn.prepareStatement(sql);
+                        rs = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs.getString("EmailSenzaTelefono"));
+                        break;
+                case 2: sql = "select EmailNoLibri from email";
+                        Statement = conn.prepareStatement(sql);
+                        rs = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs.getString("EmailNoLibri"));
+                        break;
+            }
+            Statement.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_visualizzaEmailImpostazioniActionPerformed
+
+    private void salvaEmailImpostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvaEmailImpostazioniActionPerformed
+        int selezione = cbEmailImpostazioni.getSelectedIndex();
+        String sql;
+        String testoEmail = epEmailImpostazioni.getText().replace("'","''");
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            switch (selezione){
+                case 0: sql = "update email set EmailConTelefono='"+testoEmail+"'";
+                        Statement = conn.prepareStatement(sql);
+                        Statement.execute();
+                        break;
+                case 1: sql = "update email set EmailSenzaTelefono='"+testoEmail+"'";
+                        Statement = conn.prepareStatement(sql);
+                        Statement.execute();
+                        break;
+                case 2: sql = "update email set EmailNoLibri='"+testoEmail+"'";
+                        Statement = conn.prepareStatement(sql);
+                        Statement.execute();
+                        break;
+            }
+            
+            Statement.close();
+            conn.close();
+            
+            JOptionPane.showMessageDialog(null, "Testo Email modificato!", "Email Modificata", JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_salvaEmailImpostazioniActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2675,16 +2836,19 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JButton btn_stampa;
     private javax.swing.JButton btn_stampadomani;
     private javax.swing.JButton btn_stampaoggi;
+    private javax.swing.JComboBox<String> cbEmailImpostazioni;
     private javax.swing.JComboBox<String> cb_mpag;
     private javax.swing.JTextField cercaEvasi;
     private javax.swing.JLabel dbCorrente;
     private javax.swing.JTextField destinatario;
     private javax.swing.JButton emailTemp;
+    private javax.swing.JEditorPane epEmailImpostazioni;
     private javax.swing.JMenu file_menu;
     private javax.swing.JTable get_clienti;
     private javax.swing.JTextField giornoRitiro;
     private javax.swing.JLabel info;
     private javax.swing.JButton invioEmail;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2716,6 +2880,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2726,6 +2891,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2736,6 +2902,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblEmailImpostazioni;
     private javax.swing.JTextField libriTrovati;
     private javax.swing.JMenuItem mn_aggiorna;
     private javax.swing.JMenuItem mn_aggiornaTabella;
@@ -2752,6 +2920,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTextField pathDb;
     private javax.swing.JCheckBox ritirato;
     private javax.swing.JCheckBox ritirato1;
+    private javax.swing.JButton salvaEmailImpostazioni;
     private javax.swing.JTextField search_for;
     private javax.swing.JCheckBox spacchettato;
     private javax.swing.JCheckBox spacchettato1;
@@ -2763,5 +2932,6 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTable tbl_spedizioni;
     private javax.swing.JTable tbl_spedizioniEvase;
     private javax.swing.JTextArea testo;
+    private javax.swing.JButton visualizzaEmailImpostazioni;
     // End of variables declaration//GEN-END:variables
 }

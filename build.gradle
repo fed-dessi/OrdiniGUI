@@ -23,6 +23,19 @@ repositories {
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
 }
 
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+  }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+
 dependencies {
     // TODO: Add dependencies here ...
     // You can read more about how to add dependency here:

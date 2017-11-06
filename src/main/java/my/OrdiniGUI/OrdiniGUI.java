@@ -47,6 +47,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import my.OrdiniGUI.Gmail.Credentials;
 import my.OrdiniGUI.Gmail.TestoEmail;
+import org.apache.logging.log4j.LogManager;
 
 
 
@@ -67,6 +68,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private String dbPath;
     private String MPagamento;
     private Gmail service;
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
     
     /**
      * Creates new form OrdiniGUI
@@ -130,10 +132,12 @@ public class OrdiniGUI extends javax.swing.JFrame {
         populate_table_ModificaMultipla();
         enablerClick();
         
+        
         try {
             service = Credentials.getGmailService();
         } catch (Throwable  ex) {
             ex.printStackTrace();
+            logger.error("Errore nel metodo principale", ex);
         }
         
         
@@ -234,20 +238,25 @@ public class OrdiniGUI extends javax.swing.JFrame {
                               " Ritirato VARCHAR(5), " + 
                               " PRIMARY KEY ( CodiceCliente ))";
                 String sql2 = "CREATE TABLE email " +
-                              "(EmailConTelefono VARCHAR(5000), " +
-                              " EmailSenzaTelefono VARCHAR(5000), " +
-                              " EmailNoLibri VARCHAR(5000))";
-                    conn = DriverManager.getConnection("jdbc:sqlite:" + fileName);
-                    Statement = conn.prepareStatement(sql1);
-                    Statement.execute();
-                    Statement.close();
-                    Statement = conn.prepareStatement(sql2);
-                    Statement.execute();
-                    Statement.close();
-                    conn.close();
+                              "(EmailConTelefono VARCHAR(5000) , " +
+                              " EmailSenzaTelefono VARCHAR(5000) , " +
+                              " EmailNoLibri VARCHAR(5000)) ";
+                String sql3 = "INSERT INTO email (EmailConTelefono,EmailSenzaTelefono,EmailNoLibri) values ('','','')";
+                conn = DriverManager.getConnection("jdbc:sqlite:" + fileName);
+                Statement = conn.prepareStatement(sql1);
+                Statement.execute();
+                Statement.close();
+                Statement = conn.prepareStatement(sql2);
+                Statement.execute();
+                Statement.close();
+                Statement = conn.prepareStatement(sql3);
+                Statement.execute();
+                Statement.close();
+                conn.close();
                 JOptionPane.showMessageDialog(null, "Un nuovo database è stato creato", "Creato",JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Errore 2", JOptionPane.PLAIN_MESSAGE);
+            logger.error("Errore in createNewDatabase", e);
         }
     }
    
@@ -262,7 +271,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
             JOptionPane.showMessageDialog(null, "Database cancellato", "Cancellato",JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(OrdiniGUI.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Errore in cancellaDb", ex);
         }
     }
     
@@ -375,6 +384,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             }catch(SQLException e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, e, "Errore modificaDati()", JOptionPane.ERROR_MESSAGE);
+                logger.error("Errore in modificaDati", e);
             }
     }
     
@@ -475,12 +485,15 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Codice Cliente già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
                 }else{
                 JOptionPane.showMessageDialog(null, e);
+                logger.error("Errore in salva", e);
                 }
             } catch( MessagingException | IOException ex){
                 JOptionPane.showMessageDialog(null, ex);
+                logger.error("Errore in salva", ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
+            
         }
     }
     
@@ -509,6 +522,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in populate_table_ritiri_domani", e);
         
         }
         
@@ -527,6 +541,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in populate_table_ritiri_oggi", e);
         }
         
     }
@@ -544,6 +559,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }catch(SQLException e){
 
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in populate_table_spedizioni", e);
         }
     }
     
@@ -560,6 +576,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }catch(SQLException e){
 
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in populate_table_evasi", e);
         }
     }
         
@@ -575,6 +592,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in populate_table_spedizioniEvase", e);
         }
     }
     
@@ -597,6 +615,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in populate_table_ModificaMultipla", e);
         }
     }
         
@@ -637,6 +656,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
+            logger.error("Errore in update_table", e);
         
         }
     }
@@ -750,11 +770,13 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 conn.close();
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e);
+                logger.error("Errore in aggiorna", e);
             }
             update_table();
             clear_fields();
         }else{
             JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
+            
         }     
     }
     
@@ -775,6 +797,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
                 }catch(SQLException e){
                     JOptionPane.showMessageDialog(null, e);
+                    logger.error("Errore in elimina", e);
                 }
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 Calendar cal = Calendar.getInstance();
@@ -799,6 +822,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
         }catch(java.awt.print.PrinterException e){
             System.err.format("Impossibile Stampare %%n", e.getMessage());
+            logger.error("Errore in stampaOggi", e);
         }
     }
     
@@ -813,6 +837,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
         }catch(java.awt.print.PrinterException e){
             System.err.format("Impossibile Stampare %%n", e.getMessage());
+            logger.error("Errore in stampaDomani", e);
         }
     }
     
@@ -825,6 +850,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
         }catch(java.awt.print.PrinterException e){
             System.err.format("Impossibile Stampare %%n", e.getMessage());
+            logger.error("Errore in stampaInserimento", e);
         }
     }
 
@@ -2311,6 +2337,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }catch(Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e, "Errore a1", JOptionPane.ERROR_MESSAGE);
+            logger.error("Errore in get_clientiMouseClicked", e);
         }
     }//GEN-LAST:event_get_clientiMouseClicked
 
@@ -2409,6 +2436,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e);
                 e.printStackTrace();
+                logger.error("Errore in get_clientiKeyReleased", e);
             }
         }
     }//GEN-LAST:event_get_clientiKeyReleased
@@ -2437,6 +2465,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             clear_fields();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in btn_clearActionPerformed", e);
         }
     }//GEN-LAST:event_btn_clearActionPerformed
 
@@ -2459,6 +2488,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in btn_ritirioggiActionPerformed", e);
 
         }
     }//GEN-LAST:event_btn_ritirioggiActionPerformed
@@ -2482,12 +2512,12 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in btn_ritiridomaniActionPerformed", e);
 
         }
     }//GEN-LAST:event_btn_ritiridomaniActionPerformed
 
     private void btn_stampadomaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_stampadomaniActionPerformed
-        // TODO add your handling code here:
         stampaDomani();
     }//GEN-LAST:event_btn_stampadomaniActionPerformed
 
@@ -2502,6 +2532,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             conn.close();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in btn_ritiriPerGiornoActionPerformed", e);
         }
     }//GEN-LAST:event_btn_ritiriPerGiornoActionPerformed
 
@@ -2551,7 +2582,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
            try {
                temp = new File(OrdiniGUI.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
            } catch (URISyntaxException ex) {
-               Logger.getLogger(OrdiniGUI.class.getName()).log(Level.SEVERE, null, ex);
+               logger.error("Errore in btn_salvaDbActionPerformed", ex);
            }
             String jarDir = temp.getParentFile().getPath();
             createFilePath(jarDir);
@@ -2571,6 +2602,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             clear_fields();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in mn_cancellaActionPerformed", e);
         }
     }//GEN-LAST:event_mn_cancellaActionPerformed
 
@@ -2683,6 +2715,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Clienti Modificati", "Modificati", JOptionPane.INFORMATION_MESSAGE);
         }catch(SQLException e){
             e.printStackTrace();
+            logger.error("Errore in btnModificaModificaMultiplaActionPerformed", e);
         }
         
     }//GEN-LAST:event_btnModificaModificaMultiplaActionPerformed
@@ -2693,6 +2726,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             Message messaggio = TestoEmail.sendMessage(service, "me", email);
         } catch (MessagingException | IOException ex) {
             ex.printStackTrace();
+            logger.error("Errore in invioEmailActionPerformed", ex);
         }
     }//GEN-LAST:event_invioEmailActionPerformed
 
@@ -2703,32 +2737,37 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private void visualizzaEmailImpostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaEmailImpostazioniActionPerformed
         int selezione = cbEmailImpostazioni.getSelectedIndex();
         String sql;
-        ResultSet rs;
+        
         //Usiamo uno switch per scegliere quali delle tre opzioni usare
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             switch (selezione){
                 case 0: sql = "select EmailConTelefono from email";
                         Statement = conn.prepareStatement(sql);
-                        rs = Statement.executeQuery();
-                        epEmailImpostazioni.setText(rs.getString("EmailConTelefono"));
+                        ResultSet rs1 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs1.getString("EmailConTelefono"));
+                        rs1.close();
                         break;
                 case 1: sql = "select EmailSenzaTelefono from email";
                         Statement = conn.prepareStatement(sql);
-                        rs = Statement.executeQuery();
-                        epEmailImpostazioni.setText(rs.getString("EmailSenzaTelefono"));
+                        ResultSet rs2 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs2.getString("EmailSenzaTelefono"));
+                        rs2.close();
                         break;
                 case 2: sql = "select EmailNoLibri from email";
                         Statement = conn.prepareStatement(sql);
-                        rs = Statement.executeQuery();
-                        epEmailImpostazioni.setText(rs.getString("EmailNoLibri"));
+                        ResultSet rs3 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs3.getString("EmailNoLibri"));
+                        rs3.close();
                         break;
             }
             Statement.close();
+            
             conn.close();
             
         } catch (SQLException ex) {
             ex.printStackTrace();
+            logger.error("Errore di visualizzaEmail", ex);
         }
     }//GEN-LAST:event_visualizzaEmailImpostazioniActionPerformed
 
@@ -2760,6 +2799,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             
         } catch (SQLException ex) {
             ex.printStackTrace();
+            logger.error("Errore di SalvaEmail", ex);
         }
     }//GEN-LAST:event_salvaEmailImpostazioniActionPerformed
 

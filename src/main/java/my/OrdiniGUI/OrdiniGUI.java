@@ -39,12 +39,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
 import my.OrdiniGUI.Gmail.Credentials;
 import my.OrdiniGUI.Gmail.TestoEmail;
 import org.apache.logging.log4j.LogManager;
@@ -436,6 +439,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 
                 //Se abbiamo l'email allora entriamo dentro il metodo
                 conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                
+                JTextPane pane = new JTextPane();
+                pane.setContentType("text/html");
+                
+                
                 if(Email.getText() != null && !Email.getText().equals("")){
                     //Caso 1: Abbiamo il telefono
                     if((Tel1.getText() != null && !Tel1.getText().equals("")) || (Tel2.getText() != null && !Tel2.getText().equals(""))){
@@ -444,10 +452,17 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         Statement = conn.prepareStatement(sql);
                         rs = Statement.executeQuery();
                         String testoEmail = rs.getString("EmailConTelefono");
-                        testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
                         
-                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
-                        TestoEmail.sendMessage(service, "me", email);
+                        pane.setText(testoEmail);
+                        
+                        if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                            testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+
+                            MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
+                            TestoEmail.sendMessage(service, "me", email);
+                        } else{
+                            JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
                     } 
                     //Caso 2: Non abbiamo il telefono
                     else{
@@ -456,14 +471,22 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         Statement = conn.prepareStatement(sql);
                         rs = Statement.executeQuery();
                         String testoEmail = rs.getString("EmailSenzaTelefono");
-                        testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
                         
-                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
-                        TestoEmail.sendMessage(service, "me", email);
+                        pane.setText(testoEmail);
                         
+                        if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                            testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+
+                            MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
+                            TestoEmail.sendMessage(service, "me", email);
+                        } else{
+                            JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                     
                 }
+                
+                pane = null;
                 Statement.close();
                 conn.close();
                 
@@ -639,7 +662,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             sorter.setSortKeys(sortKeys);
             
             //Controllo se avevo una riga selezionata, se si allora la riseleziono cosi' da poter usare le freccette
-            if(sRow >= 0){
+            if(sRow >= 0 && get_clienti.getRowCount() != 0 && get_clienti.getRowCount() > sRow){
                 get_clienti.setRowSelectionInterval(sRow, sRow);
                 get_clienti.requestFocus();
             }
@@ -752,6 +775,34 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     Spacchettato = "NO";
                 
                 ValoriSpedizione();
+                
+                //Controllo il numero dei libri trovati: Se 0 allora invio email e poi spacchetto
+                if(val13.equals("0")){
+                    conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                    String sql = "select EmailNoLibri from email";
+                    Statement = conn.prepareStatement(sql);
+                    rs = Statement.executeQuery();
+                    String testoEmail = rs.getString("EmailNoLibri");
+                    
+                    JTextPane pane = new JTextPane();
+                    pane.setContentType("text/html");
+                    pane.setText(testoEmail);
+                    
+                    if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Ordine libri Oberdan15", testoEmail);
+                        TestoEmail.sendMessage(service, "me", email);
+                        
+                        Spacchettato = "SI";
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                    pane = null;
+                    rs.close();
+                    Statement.close();
+                    conn.close();
+                }
+                
                 String sql = "update ordini set CodiceCliente='"+val0+"',Nome='"+val1+"',Cognome='"+val2+"',Telefono1='"+val3+"',Telefono2='"+val4+"',Email='"+val5+"',dRitiro='"+val6+"',Spedizione='"+Spedizione+"',SpedPagata='"+SpedizionePagata+"',Indirizzo='"+val7+"',CAP='"+val8+"',Citta='"+val9+"',Provincia='"+val10+"',MPagamento='"+MPagamento+"',Tracking='"+val11+"',Note='"+val12+"',LibriTrovati='"+val13+"',Spacchettato='"+Spacchettato+"',Ritirato='"+Ritirato+"' where CodiceCliente ='"+CC+"'";
                 conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
                 Statement = conn.prepareStatement(sql);
@@ -768,7 +819,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 
                 Statement.close();
                 conn.close();
-            }catch(SQLException e){
+            }catch(Exception e){
                 JOptionPane.showMessageDialog(null, e);
                 logger.error("Errore in aggiorna", e);
             }
@@ -880,9 +931,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
         lblEmailImpostazioni = new javax.swing.JLabel();
         visualizzaEmailImpostazioni = new javax.swing.JButton();
         salvaEmailImpostazioni = new javax.swing.JButton();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        epEmailImpostazioni = new javax.swing.JEditorPane();
         jButton1 = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        epEmailImpostazioni = new javax.swing.JTextPane();
         InvioEmail = new javax.swing.JFrame();
         jPanel10 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
@@ -890,9 +941,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         oggetto = new javax.swing.JTextField();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        testo = new javax.swing.JTextArea();
         invioEmail = new javax.swing.JButton();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        testo = new javax.swing.JEditorPane();
         Pannello = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -1117,14 +1168,14 @@ public class OrdiniGUI extends javax.swing.JFrame {
             }
         });
 
-        epEmailImpostazioni.setContentType("text/html"); // NOI18N
-        jScrollPane12.setViewportView(epEmailImpostazioni);
-
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/immagini/info.png"))); // NOI18N
         jButton1.setToolTipText("<html>\nPer inserire il codice cliente usare la stringa:<br><br>\n\n\"<b>%s</b>\" (senza virgolette)\n</html>");
         jButton1.setMaximumSize(new java.awt.Dimension(25, 25));
         jButton1.setMinimumSize(new java.awt.Dimension(25, 25));
         jButton1.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        epEmailImpostazioni.setContentType("text/html"); // NOI18N
+        jScrollPane10.setViewportView(epEmailImpostazioni);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1134,12 +1185,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane12)
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(lblEmailImpostazioni)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane10)
                         .addContainerGap())
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(lblEmailImpostazioni)
+                        .addContainerGap(389, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(cbEmailImpostazioni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50)
@@ -1161,9 +1211,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     .addComponent(visualizzaEmailImpostazioni)
                     .addComponent(salvaEmailImpostazioni)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Email", jPanel11);
@@ -1172,22 +1222,21 @@ public class OrdiniGUI extends javax.swing.JFrame {
         Impostazioni.getContentPane().setLayout(ImpostazioniLayout);
         ImpostazioniLayout.setHorizontalGroup(
             ImpostazioniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         ImpostazioniLayout.setVerticalGroup(
             ImpostazioniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
-        jLabel25.setText("Destinatario");
+        InvioEmail.setTitle("Invio Email");
+        InvioEmail.setMinimumSize(new java.awt.Dimension(916, 611));
+
+        jLabel25.setText("Destinatario:");
 
         jLabel26.setText("Oggetto:");
 
         jLabel27.setText("Testo:");
-
-        testo.setColumns(20);
-        testo.setRows(5);
-        jScrollPane10.setViewportView(testo);
 
         invioEmail.setText("Invia Email");
         invioEmail.addActionListener(new java.awt.event.ActionListener() {
@@ -1195,6 +1244,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 invioEmailActionPerformed(evt);
             }
         });
+
+        testo.setContentType("text/html"); // NOI18N
+        jScrollPane11.setViewportView(testo);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -1204,22 +1256,25 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel25)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(destinatario, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel26)
                             .addComponent(jLabel27))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(invioEmail)
-                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane10)
-                                .addGroup(jPanel10Layout.createSequentialGroup()
-                                    .addComponent(oggetto, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                                    .addGap(477, 477, 477))))))
-                .addContainerGap(90, Short.MAX_VALUE))
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(invioEmail))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 754, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(oggetto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(477, 477, 477))))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(destinatario, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1235,8 +1290,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel27)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(invioEmail)
                 .addContainerGap(176, Short.MAX_VALUE))
         );
@@ -2724,6 +2779,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
         try {
             MimeMessage email = TestoEmail.createEmail(destinatario.getText(), "me", oggetto.getText(), testo.getText());
             Message messaggio = TestoEmail.sendMessage(service, "me", email);
+            
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            Calendar cal = Calendar.getInstance();
+            info.setText(dateFormat.format(cal.getTime())+": Email Inviata!");
         } catch (MessagingException | IOException ex) {
             ex.printStackTrace();
             logger.error("Errore in invioEmailActionPerformed", ex);
@@ -2732,6 +2791,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
     private void emailTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTempActionPerformed
         InvioEmail.setVisible(true);
+        InvioEmail.setMinimumSize(new Dimension(916, 611));
     }//GEN-LAST:event_emailTempActionPerformed
 
     private void visualizzaEmailImpostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaEmailImpostazioniActionPerformed
@@ -2882,7 +2942,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JLabel dbCorrente;
     private javax.swing.JTextField destinatario;
     private javax.swing.JButton emailTemp;
-    private javax.swing.JEditorPane epEmailImpostazioni;
+    private javax.swing.JTextPane epEmailImpostazioni;
     private javax.swing.JMenu file_menu;
     private javax.swing.JTable get_clienti;
     private javax.swing.JTextField giornoRitiro;
@@ -2931,7 +2991,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2971,7 +3031,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTable tbl_ritirioggi;
     private javax.swing.JTable tbl_spedizioni;
     private javax.swing.JTable tbl_spedizioniEvase;
-    private javax.swing.JTextArea testo;
+    private javax.swing.JEditorPane testo;
     private javax.swing.JButton visualizzaEmailImpostazioni;
     // End of variables declaration//GEN-END:variables
 }

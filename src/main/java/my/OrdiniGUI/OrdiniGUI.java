@@ -30,8 +30,6 @@ import net.proteanit.sql.DbUtils;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.swing.AbstractAction;
@@ -46,8 +44,6 @@ import javax.swing.RowSorter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLEditorKit;
 import my.OrdiniGUI.Gmail.Credentials;
 import my.OrdiniGUI.Gmail.TestoEmail;
 import org.apache.logging.log4j.LogManager;
@@ -89,6 +85,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             check_path = new File(jarDir+"\\dbPath.txt");
         } catch (URISyntaxException ex) {
             ex.printStackTrace();
+            logger.error("Errore nel metodo principale", ex);
         }
         if(check_path.exists() && !check_path.isDirectory()) { 
             try {

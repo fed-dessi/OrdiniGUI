@@ -1614,14 +1614,14 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(20, 20, 20)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addComponent(info)
                     .addGap(0, 0, Short.MAX_VALUE))))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel1Layout.createSequentialGroup()
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jLabel8)
             .addGap(18, 18, 18)
@@ -1693,7 +1693,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addGap(18, 18, 18)
             .addComponent(jLabel21)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
             .addGap(41, 41, 41)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1767,7 +1767,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(btnModificaModificaMultipla)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1612, Short.MAX_VALUE)
+        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
     );
     jPanel9Layout.setVerticalGroup(
         jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1838,7 +1838,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel2Layout.createSequentialGroup()
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 982, Short.MAX_VALUE))
+            .addGap(0, 589, Short.MAX_VALUE))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1904,7 +1904,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 982, Short.MAX_VALUE))
+            .addGap(0, 589, Short.MAX_VALUE))
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1974,7 +1974,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addGap(85, 85, 85)
             .addComponent(btn_ritiriPerGiorno)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1612, Short.MAX_VALUE)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2016,10 +2016,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel5Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioni)
-            .addGap(0, 1505, Short.MAX_VALUE))
+            .addGap(0, 1112, Short.MAX_VALUE))
         .addGroup(jPanel5Layout.createSequentialGroup()
             .addGap(19, 19, 19)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1583, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
             .addContainerGap())
     );
     jPanel5Layout.setVerticalGroup(
@@ -2085,11 +2085,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addComponent(jLabel24)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(cercaEvasi, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(1053, Short.MAX_VALUE))
+            .addContainerGap(660, Short.MAX_VALUE))
         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1583, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
                 .addGap(15, 15, 15)))
     );
     jPanel7Layout.setVerticalGroup(
@@ -2149,11 +2149,11 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel8Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btn_spedizioniEvase)
-            .addContainerGap(1505, Short.MAX_VALUE))
+            .addContainerGap(1112, Short.MAX_VALUE))
         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1583, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
                 .addGap(15, 15, 15)))
     );
     jPanel8Layout.setVerticalGroup(

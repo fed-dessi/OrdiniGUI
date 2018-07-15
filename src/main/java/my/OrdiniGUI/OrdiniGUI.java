@@ -8,6 +8,14 @@ package my.OrdiniGUI;
 
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import com.mongodb.async.SingleResultCallback;
+import com.mongodb.async.client.MongoClient;
+import com.mongodb.async.client.MongoClients;
+import com.mongodb.async.client.MongoCollection;
+import com.mongodb.async.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -47,6 +55,8 @@ import javax.swing.table.TableRowSorter;
 import my.OrdiniGUI.Gmail.Credentials;
 import my.OrdiniGUI.Gmail.TestoEmail;
 import org.apache.logging.log4j.LogManager;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 
 
 
@@ -68,6 +78,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private String MPagamento;
     private Gmail service;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
+    
+    MongoClient mongoClient = MongoClients.create("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev");
+    
     
     /**
      * Creates new form OrdiniGUI
@@ -433,6 +446,29 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 this.Spedizione = null;
                 this.SpedizionePagata = null;
                 this.MPagamento = null;
+
+                //Aggiungiamo il cliente al database mongo
+                MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                
+                MongoCollection<Document> collection = database.getCollection("ordini");
+
+                Document doc = new Document("codiceCliente", CodiceCliente.getText())
+                        .append("nome", Nome.getText())
+                        .append("cognome", Cognome.getText())
+                        .append("dataRitiro", DataRitiro.getText())
+                        .append("ritirato", false);
+
+                collection.insertOne(doc, new SingleResultCallback<Void>() {
+                    @Override
+                    public void onResult(final Void result, final Throwable t) {
+                        if(t == null){
+                            logger.info("Cliente inserito!");
+                        } else {
+                            logger.error(t.toString());
+                            JOptionPane.showMessageDialog(null, "Errore in inserisci()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
                 
                 //Se abbiamo l'email allora entriamo dentro il metodo
                 conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
@@ -808,6 +844,31 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 Spedizione = null;
                 SpedizionePagata = null;
                 MPagamento = null;
+      
+                //aggiorniamo il cliente online sul database mongo
+                MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+
+                MongoCollection<Document> collection = database.getCollection("ordini");
+                //creiamo un filter per selezionare un cliente specifico
+                Bson filter = new Document("codiceCliente", CC); 
+                Bson newValue = new Document("codiceCliente", val0).append("nome", val1).append("cognome", val2).append("dataRitiro", val6);      
+                Bson updateOperationDocument = new Document("$set", newValue);
+                
+                //aggiorniamo il cliente con i dati specificati
+                collection.updateMany(filter, updateOperationDocument,
+                new SingleResultCallback<UpdateResult>() {
+                    @Override
+                    public void onResult(final UpdateResult result, final Throwable t) {
+                        
+                        if(t == null){
+                            logger.info("Cliente modificato!");
+                        } else {
+                            logger.error(t.toString());
+                            JOptionPane.showMessageDialog(null, "Errore in aggiorna()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
+ 
                 this.CC = null;
                 
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm");
@@ -842,6 +903,21 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     Statement.close();
                     conn.close();
 
+                    //eliminiamo il cliente su mongo
+                    MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+
+                    MongoCollection<Document> collection = database.getCollection("ordini");
+                    collection.deleteOne(eq("codiceCliente", CodiceCliente.getText()), new SingleResultCallback<DeleteResult>() {
+                        @Override
+                        public void onResult(final DeleteResult result, final Throwable t) {
+                            if(t == null){
+                                logger.info("Cliente Rimosso!");
+                            } else {
+                                logger.error(t.toString());
+                                JOptionPane.showMessageDialog(null, "Errore in elimina()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    });
 
                 }catch(SQLException e){
                     JOptionPane.showMessageDialog(null, e);
@@ -2741,6 +2817,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
             String Spacchettato = null;
             DefaultTableModel tm = (DefaultTableModel)tblModificaMultipla.getModel(); 
             conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            
+            MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+            MongoCollection<Document> collection = database.getCollection("ordini");
+            
             //Applica spacchettato oppure ritirato per ognuna
             for(int i=rows.length-1; i>=0; i--){
 
@@ -2757,6 +2837,20 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 Statement = conn.prepareStatement(sql);
                 Statement.execute();
                 Statement.close();
+                
+                if(Spacchettato.equals("SI")){
+                    collection.deleteOne(eq("codiceCliente", tm.getValueAt(rows[i], 0).toString()), new SingleResultCallback<DeleteResult>() {
+                        @Override
+                        public void onResult(final DeleteResult result, final Throwable t) {
+                            if(t == null){
+                                logger.info("Cliente Rimosso!");
+                            } else {
+                                logger.error(t.toString());
+                                JOptionPane.showMessageDialog(null, "Errore in btnModificaModificaMultiplaActionPerformed", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    });
+                }
             }
             conn.close();
             aggiornaTabelle();

@@ -977,6 +977,59 @@ public class OrdiniGUI extends javax.swing.JFrame {
             logger.error("Errore in stampaInserimento", e);
         }
     }
+    
+    private void esporta(){
+        int opt = JOptionPane.showConfirmDialog(null, "Vuoi esportare il database?", "Database", JOptionPane.YES_NO_OPTION);
+        
+        if(opt == JOptionPane.YES_OPTION){
+            try{
+                String sql = "select * from ordini WHERE Ritirato = 'NO' AND Spacchettato ='NO' AND SpedPagata = '' OR Ritirato = 'NO' AND Spacchettato ='NO' AND SpedPagata = 'NO' ORDER BY CodiceCliente ASC";
+                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                Statement = conn.prepareStatement(sql);
+                rs = Statement.executeQuery();
+
+                while(rs.next()){
+                    String codiceCliente = rs.getString("CodiceCliente");
+                    String nome = rs.getString("Nome");
+                    String cognome = rs.getString("Cognome");
+                    String dataRitiro = rs.getString("dRitiro");
+                    String ritiratoString =rs.getString("Ritirato");
+                    boolean ritiratoBoolean = false;
+                    if(ritiratoString.equals("SI")){
+                        ritiratoBoolean = true;
+                    }
+
+
+                    //Aggiungiamo il cliente al database mongo
+                        MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+
+                        MongoCollection<Document> collection = database.getCollection("ordini");
+
+                        Document doc = new Document("codiceCliente", codiceCliente)
+                                .append("nome", nome)
+                                .append("cognome", cognome)
+                                .append("dataRitiro", dataRitiro)
+                                .append("ritirato", ritiratoBoolean);
+
+                        collection.insertOne(doc, new SingleResultCallback<Void>() {
+                            @Override
+                            public void onResult(final Void result, final Throwable t) {
+                                if(t == null){
+                                    logger.info("Cliente inserito!");
+                                } else {
+                                    logger.error(t.toString());
+                                    JOptionPane.showMessageDialog(null, "Errore in inserisci()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        });
+                }
+                JOptionPane.showMessageDialog(null, "Database esportato!", "Esportato", JOptionPane.INFORMATION_MESSAGE);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+                logger.error("Errore in esporta", e);
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -999,6 +1052,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         btn_nuovoDb = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         dbCorrente = new javax.swing.JLabel();
+        esportaMongo = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         cbEmailImpostazioni = new javax.swing.JComboBox<>();
         lblEmailImpostazioni = new javax.swing.JLabel();
@@ -1168,19 +1222,19 @@ public class OrdiniGUI extends javax.swing.JFrame {
         dbCorrente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         dbCorrente.setText("aa");
 
+        esportaMongo.setText("Esporta database corrente");
+        esportaMongo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                esportaMongoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(btn_salvaDb)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_nuovoDb)
-                        .addGap(16, 16, 16)
-                        .addComponent(btn_closeImp))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1195,7 +1249,16 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         .addComponent(dbCorrente))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel19)))
+                        .addComponent(jLabel19))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(btn_salvaDb)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(esportaMongo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_nuovoDb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)
+                        .addComponent(btn_closeImp)))
                 .addContainerGap(280, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -1217,7 +1280,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     .addComponent(btn_closeImp)
                     .addComponent(btn_salvaDb)
                     .addComponent(btn_nuovoDb))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(esportaMongo)
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Database", jPanel6);
@@ -2954,6 +3019,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_salvaEmailImpostazioniActionPerformed
 
+    private void esportaMongoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esportaMongoActionPerformed
+        esporta();
+    }//GEN-LAST:event_esportaMongoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3034,6 +3103,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTextField destinatario;
     private javax.swing.JButton emailTemp;
     private javax.swing.JTextPane epEmailImpostazioni;
+    private javax.swing.JButton esportaMongo;
     private javax.swing.JMenu file_menu;
     private javax.swing.JTable get_clienti;
     private javax.swing.JTextField giornoRitiro;

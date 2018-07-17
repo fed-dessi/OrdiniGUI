@@ -202,3 +202,320 @@ org.sqlite.SQLiteException: [SQLITE_BUSY]  The database file is locked (database
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-15 19:53:02.971 [AWT-EventQueue-0] OrdiniGUI - Errore nel metodo principale
+
+java.lang.NullPointerException: null
+	at java.io.Reader.<init>(Reader.java:78) ~[?:1.8.0_144]
+	at java.io.InputStreamReader.<init>(InputStreamReader.java:72) ~[?:1.8.0_144]
+	at my.OrdiniGUI.Gmail.Credentials.authorize(Credentials.java:70) ~[main/:?]
+	at my.OrdiniGUI.Gmail.Credentials.getGmailService(Credentials.java:94) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:150) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$51.run(OrdiniGUI.java:2987) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-15 19:53:17.888 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-15 19:53:19.854 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CoreStatement.internalClose(CoreStatement.java:115) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.close(JDBC3Statement.java:35) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Statement.close(JDBC4Statement.java:27) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:523) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2580) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$1900(OrdiniGUI.java:67) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$15.actionPerformed(OrdiniGUI.java:1491) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-15 19:54:06.359 [AWT-EventQueue-0] OrdiniGUI - Errore in createNewDatabase
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table ordini already exists)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:921) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.throwex(DB.java:886) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:127) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.prepare(DB.java:227) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:41) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:30) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:19) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:48) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:263) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:235) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.createNewDatabase(OrdiniGUI.java:259) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:134) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$51.run(OrdiniGUI.java:2987) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-15 19:54:06.587 [AWT-EventQueue-0] OrdiniGUI - Errore nel metodo principale
+
+java.lang.NullPointerException: null
+	at java.io.Reader.<init>(Reader.java:78) ~[?:1.8.0_144]
+	at java.io.InputStreamReader.<init>(InputStreamReader.java:72) ~[?:1.8.0_144]
+	at my.OrdiniGUI.Gmail.Credentials.authorize(Credentials.java:70) ~[main/:?]
+	at my.OrdiniGUI.Gmail.Credentials.getGmailService(Credentials.java:94) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:150) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$51.run(OrdiniGUI.java:2987) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-17 22:09:42.669 [AWT-EventQueue-0] OrdiniGUI - Errore nel metodo principale
+
+java.lang.NullPointerException: null
+	at java.io.Reader.<init>(Reader.java:78) ~[?:1.8.0_144]
+	at java.io.InputStreamReader.<init>(InputStreamReader.java:72) ~[?:1.8.0_144]
+	at my.OrdiniGUI.Gmail.Credentials.authorize(Credentials.java:70) ~[main/:?]
+	at my.OrdiniGUI.Gmail.Credentials.getGmailService(Credentials.java:94) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:150) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$51.run(OrdiniGUI.java:2987) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-17 22:10:24.350 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-17 22:10:25.783 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CoreStatement.internalClose(CoreStatement.java:115) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.close(JDBC3Statement.java:35) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Statement.close(JDBC4Statement.java:27) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:523) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2580) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$1900(OrdiniGUI.java:67) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$15.actionPerformed(OrdiniGUI.java:1491) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-18 00:01:38.981 [AWT-EventQueue-0] OrdiniGUI - Errore nel metodo principale
+
+java.lang.NullPointerException: null
+	at java.io.Reader.<init>(Reader.java:78) ~[?:1.8.0_144]
+	at java.io.InputStreamReader.<init>(InputStreamReader.java:72) ~[?:1.8.0_144]
+	at my.OrdiniGUI.Gmail.Credentials.authorize(Credentials.java:70) ~[main/:?]
+	at my.OrdiniGUI.Gmail.Credentials.getGmailService(Credentials.java:94) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:150) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3051) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-18 00:01:54.558 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-18 00:01:55.398 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CoreStatement.internalClose(CoreStatement.java:115) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.close(JDBC3Statement.java:35) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Statement.close(JDBC4Statement.java:27) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:523) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2640) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2000(OrdiniGUI.java:67) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1551) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-18 00:04:36.426 [Thread-10] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-18 00:04:36.475 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-18 00:04:36.812 [Thread-10] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-18 00:15:50.428 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-18 00:15:50.428 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-18 00:15:50.428 [Thread-11] OrdiniGUI - Cliente inserito!
+

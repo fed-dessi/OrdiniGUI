@@ -263,9 +263,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 String sql2 = "CREATE TABLE email " +
                               "(EmailConTelefono VARCHAR(5000) , " +
                               " EmailSenzaTelefono VARCHAR(5000) , " +
-                              " EmailNoLibri VARCHAR(5000)) " +
-                              " RitiroPrenotato VARCHAR(5000) , ";
-                String sql3 = "INSERT INTO email (EmailConTelefono,EmailSenzaTelefono,EmailNoLibri, RitiroPrenotato) values ('','','','')";
+                              " EmailNoLibri VARCHAR(5000) , " +
+                              " RitiroPrenotato VARCHAR(5000)) ";
+                String sql3 = "INSERT INTO email (EmailConTelefono,EmailSenzaTelefono,EmailNoLibri,RitiroPrenotato) values ('','','','')";
                 conn = DriverManager.getConnection("jdbc:sqlite:" + fileName);
                 Statement = conn.prepareStatement(sql1);
                 Statement.execute();

@@ -519,3 +519,1095 @@ org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connec
 
 [INFO ] 2018-07-18 00:15:50.428 [Thread-11] OrdiniGUI - Cliente inserito!
 
+
+
+[INFO ] 2018-07-18 16:09:56.555 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-18 16:10:03.762 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+com.google.api.client.auth.oauth2.TokenResponseException: 401 Unauthorized
+	at com.google.api.client.auth.oauth2.TokenResponseException.from(TokenResponseException.java:105) ~[google-oauth-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.auth.oauth2.TokenRequest.executeUnparsed(TokenRequest.java:287) ~[google-oauth-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.auth.oauth2.TokenRequest.execute(TokenRequest.java:307) ~[google-oauth-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.auth.oauth2.Credential.executeRefreshToken(Credential.java:570) ~[google-oauth-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.auth.oauth2.Credential.refreshToken(Credential.java:489) ~[google-oauth-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.auth.oauth2.Credential.intercept(Credential.java:217) ~[google-oauth-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:868) ~[google-http-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:419) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:352) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:469) ~[google-api-client-1.23.0.jar:1.23.0]
+	at my.OrdiniGUI.Gmail.TestoEmail.sendMessage(TestoEmail.java:86) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:514) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2645) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2000(OrdiniGUI.java:67) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1556) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-18 16:11:06.457 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-18 16:11:20.112 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-18 16:11:33.261 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+	at com.google.api.client.googleapis.json.GoogleJsonResponseException.from(GoogleJsonResponseException.java:146) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:113) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:40) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1.interceptResponse(AbstractGoogleClientRequest.java:321) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1065) ~[google-http-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:419) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:352) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:469) ~[google-api-client-1.23.0.jar:1.23.0]
+	at my.OrdiniGUI.Gmail.TestoEmail.sendMessage(TestoEmail.java:86) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:514) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2645) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2000(OrdiniGUI.java:67) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1556) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-18 16:11:49.788 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+org.sqlite.SQLiteException: [SQLITE_BUSY]  The database file is locked (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:921) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.execute(DB.java:822) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.execute(JDBC3PreparedStatement.java:53) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:442) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2645) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2000(OrdiniGUI.java:67) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1556) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-18 16:12:23.314 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-22 20:44:20.466 [AWT-EventQueue-0] OrdiniGUI - Errore di visualizzaEmail
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CoreStatement.internalClose(CoreStatement.java:115) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.close(JDBC3Statement.java:35) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Statement.close(JDBC4Statement.java:27) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.visualizzaEmail(OrdiniGUI.java:1063) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$1600(OrdiniGUI.java:69) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$13.itemStateChanged(OrdiniGUI.java:1398) [main/:?]
+	at javax.swing.JComboBox.fireItemStateChanged(JComboBox.java:1223) [?:1.8.0_144]
+	at javax.swing.JComboBox.selectedItemChanged(JComboBox.java:1271) [?:1.8.0_144]
+	at javax.swing.JComboBox.contentsChanged(JComboBox.java:1330) [?:1.8.0_144]
+	at javax.swing.AbstractListModel.fireContentsChanged(AbstractListModel.java:118) [?:1.8.0_144]
+	at javax.swing.DefaultComboBoxModel.setSelectedItem(DefaultComboBoxModel.java:93) [?:1.8.0_144]
+	at javax.swing.JComboBox.setSelectedItem(JComboBox.java:576) [?:1.8.0_144]
+	at javax.swing.JComboBox.setSelectedIndex(JComboBox.java:622) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicComboPopup$Handler.mouseReleased(BasicComboPopup.java:861) [?:1.8.0_144]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:290) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicComboPopup$1.processMouseEvent(BasicComboPopup.java:510) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 20:44:20.477 [AWT-EventQueue-0] OrdiniGUI - Errore di visualizzaEmail
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CoreStatement.internalClose(CoreStatement.java:115) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.close(JDBC3Statement.java:35) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Statement.close(JDBC4Statement.java:27) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.visualizzaEmail(OrdiniGUI.java:1063) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$1600(OrdiniGUI.java:69) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$13.itemStateChanged(OrdiniGUI.java:1398) [main/:?]
+	at javax.swing.JComboBox.fireItemStateChanged(JComboBox.java:1223) [?:1.8.0_144]
+	at javax.swing.JComboBox.selectedItemChanged(JComboBox.java:1280) [?:1.8.0_144]
+	at javax.swing.JComboBox.contentsChanged(JComboBox.java:1330) [?:1.8.0_144]
+	at javax.swing.AbstractListModel.fireContentsChanged(AbstractListModel.java:118) [?:1.8.0_144]
+	at javax.swing.DefaultComboBoxModel.setSelectedItem(DefaultComboBoxModel.java:93) [?:1.8.0_144]
+	at javax.swing.JComboBox.setSelectedItem(JComboBox.java:576) [?:1.8.0_144]
+	at javax.swing.JComboBox.setSelectedIndex(JComboBox.java:622) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicComboPopup$Handler.mouseReleased(BasicComboPopup.java:861) [?:1.8.0_144]
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:290) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicComboPopup$1.processMouseEvent(BasicComboPopup.java:510) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:11:41.309 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: ResultSet closed
+	at org.sqlite.core.CoreResultSet.checkOpen(CoreResultSet.java:69) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:38) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:289) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3098) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:11:49.547 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: ResultSet closed
+	at org.sqlite.core.CoreResultSet.checkOpen(CoreResultSet.java:69) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:38) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:289) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3098) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:12:21.220 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: ResultSet closed
+	at org.sqlite.core.CoreResultSet.checkOpen(CoreResultSet.java:69) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:38) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:289) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3099) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:13:32.982 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: no such column: 'RitiroPrenotato'
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:48) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:288) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3099) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:20:58.942 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: no such column: 'RitiroPrenotato'
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:48) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:297) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3108) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:24:06.916 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: no such column: 'RitiroPrenotato'
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:48) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:294) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3105) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:26:11.365 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma
+
+java.sql.SQLException: no such column: 'RitiroPrenotato'
+	at org.sqlite.jdbc3.JDBC3ResultSet.findColumn(JDBC3ResultSet.java:48) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3ResultSet.getString(JDBC3ResultSet.java:443) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:296) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:149) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$53.run(OrdiniGUI.java:3107) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:30:11.983 [AWT-EventQueue-0] OrdiniGUI - Errore di SalvaEmail
+
+org.sqlite.SQLiteException: [SQLITE_BUSY]  The database file is locked (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:921) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.execute(DB.java:822) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.execute(JDBC3PreparedStatement.java:53) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.salvaEmailImpostazioniActionPerformed(OrdiniGUI.java:3054) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$1400(OrdiniGUI.java:69) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$11.actionPerformed(OrdiniGUI.java:1380) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:37:30.994 [Thread-14] OrdiniGUI - com.mongodb.MongoCommandException: Command failed with error 13 (Unauthorized): 'not authorized on ordini-dev to execute command { insert: "ordini", ordered: true, $db: "ordini-dev", $clusterTime: { clusterTime: Timestamp(1532288237, 1), signature: { hash: BinData(0, 9F268AE691B58E7D98A882620367F93D4E487A4C), keyId: 6580424062554603523 } }, lsid: { id: UUID("2844dfe0-5d52-4253-b8e5-3b4d11be89ed") } }' on server ds243041.mlab.com:43041. The full response is { "operationTime" : { "$timestamp" : { "t" : 1532288237, "i" : 1 } }, "ok" : 0.0, "errmsg" : "not authorized on ordini-dev to execute command { insert: \"ordini\", ordered: true, $db: \"ordini-dev\", $clusterTime: { clusterTime: Timestamp(1532288237, 1), signature: { hash: BinData(0, 9F268AE691B58E7D98A882620367F93D4E487A4C), keyId: 6580424062554603523 } }, lsid: { id: UUID(\"2844dfe0-5d52-4253-b8e5-3b4d11be89ed\") } }", "code" : 13, "codeName" : "Unauthorized", "$clusterTime" : { "clusterTime" : { "$timestamp" : { "t" : 1532288237, "i" : 1 } }, "signature" : { "hash" : { "$binary" : "nyaK5pG1jn2YqIJiA2f5PU5Iekw=", "$type" : "00" }, "keyId" : { "$numberLong" : "6580424062554603523" } } } }
+
+
+
+[ERROR] 2018-07-22 21:38:05.014 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CoreStatement.internalClose(CoreStatement.java:115) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.close(JDBC3Statement.java:35) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Statement.close(JDBC4Statement.java:27) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:565) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2725) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2000(OrdiniGUI.java:69) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1636) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 21:39:30.583 [Thread-14] OrdiniGUI - com.mongodb.MongoCommandException: Command failed with error 13 (Unauthorized): 'not authorized on ordini-dev to execute command { delete: "ordini", ordered: true, $db: "ordini-dev", $clusterTime: { clusterTime: Timestamp(1532288352, 1), signature: { hash: BinData(0, 49399C54006C8BC14ACCBA21D8B6EA76F577310D), keyId: 6580424062554603523 } }, lsid: { id: UUID("c82c7835-1897-42ab-965f-ef21736d9074") } }' on server ds243041.mlab.com:43041. The full response is { "operationTime" : { "$timestamp" : { "t" : 1532288364, "i" : 1 } }, "ok" : 0.0, "errmsg" : "not authorized on ordini-dev to execute command { delete: \"ordini\", ordered: true, $db: \"ordini-dev\", $clusterTime: { clusterTime: Timestamp(1532288352, 1), signature: { hash: BinData(0, 49399C54006C8BC14ACCBA21D8B6EA76F577310D), keyId: 6580424062554603523 } }, lsid: { id: UUID(\"c82c7835-1897-42ab-965f-ef21736d9074\") } }", "code" : 13, "codeName" : "Unauthorized", "$clusterTime" : { "clusterTime" : { "$timestamp" : { "t" : 1532288364, "i" : 1 } }, "signature" : { "hash" : { "$binary" : "KgfJs9MXP2NPL6o+QF0mn9RfU78=", "$type" : "00" }, "keyId" : { "$numberLong" : "6580424062554603523" } } } }
+
+
+
+[INFO ] 2018-07-22 21:44:25.463 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-22 21:44:47.663 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-22 21:45:09.348 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 21:45:12.329 [Thread-13] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 22:05:01.009 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-22 22:05:27.010 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-22 22:05:34.309 [Thread-14] OrdiniGUI - Cliente modificato!
+
+
+
+[INFO ] 2018-07-22 22:07:00.114 [Thread-13] OrdiniGUI - Cliente modificato!
+
+
+
+[INFO ] 2018-07-22 22:07:03.490 [Thread-14] OrdiniGUI - Cliente modificato!
+
+
+
+[INFO ] 2018-07-22 22:57:10.822 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-22 22:57:15.349 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+	at com.google.api.client.googleapis.json.GoogleJsonResponseException.from(GoogleJsonResponseException.java:146) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:113) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:40) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1.interceptResponse(AbstractGoogleClientRequest.java:321) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1065) ~[google-http-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:419) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:352) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:469) ~[google-api-client-1.23.0.jar:1.23.0]
+	at my.OrdiniGUI.Gmail.TestoEmail.sendMessage(TestoEmail.java:86) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:558) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2818) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2500(OrdiniGUI.java:76) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1719) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 22:57:39.648 [SwingWorker-pool-3-thread-1] OrdiniGUI - com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+
+
+
+[INFO ] 2018-07-22 23:01:38.805 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-22 23:02:04.771 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-22 23:02:05.812 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+	at com.google.api.client.googleapis.json.GoogleJsonResponseException.from(GoogleJsonResponseException.java:146) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:113) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:40) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1.interceptResponse(AbstractGoogleClientRequest.java:321) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1065) ~[google-http-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:419) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:352) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:469) ~[google-api-client-1.23.0.jar:1.23.0]
+	at my.OrdiniGUI.Gmail.TestoEmail.sendMessage(TestoEmail.java:86) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:558) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2819) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2500(OrdiniGUI.java:76) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1720) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 23:02:22.287 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiorna
+
+org.sqlite.SQLiteException: [SQLITE_BUSY]  The database file is locked (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:921) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.execute(DB.java:822) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.execute(JDBC3PreparedStatement.java:53) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiorna(OrdiniGUI.java:886) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_aggiornaActionPerformed(OrdiniGUI.java:2823) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2600(OrdiniGUI.java:76) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$18.actionPerformed(OrdiniGUI.java:1731) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-07-22 23:02:40.098 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiorna
+
+org.sqlite.SQLiteException: [SQLITE_BUSY]  The database file is locked (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:921) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.execute(DB.java:822) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.execute(JDBC3PreparedStatement.java:53) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiorna(OrdiniGUI.java:886) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_aggiornaActionPerformed(OrdiniGUI.java:2823) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2600(OrdiniGUI.java:76) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$18.actionPerformed(OrdiniGUI.java:1731) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-22 23:02:52.918 [Thread-14] OrdiniGUI - Cliente modificato!
+
+
+
+[ERROR] 2018-07-22 23:03:01.717 [SwingWorker-pool-2-thread-1] OrdiniGUI - com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+
+
+
+[ERROR] 2018-07-22 23:03:03.034 [SwingWorker-pool-2-thread-1] OrdiniGUI - com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+
+
+
+[INFO ] 2018-07-22 23:08:36.762 [Thread-14] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2018-07-22 23:09:17.173 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:09:27.986 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-22 23:09:31.373 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+	at com.google.api.client.googleapis.json.GoogleJsonResponseException.from(GoogleJsonResponseException.java:146) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:113) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:40) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1.interceptResponse(AbstractGoogleClientRequest.java:321) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1065) ~[google-http-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:419) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:352) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:469) ~[google-api-client-1.23.0.jar:1.23.0]
+	at my.OrdiniGUI.Gmail.TestoEmail.sendMessage(TestoEmail.java:86) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:558) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2824) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2500(OrdiniGUI.java:76) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1725) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-22 23:12:16.747 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:12:26.766 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-22 23:12:33.150 [AWT-EventQueue-0] OrdiniGUI - Errore in salva
+
+com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+	at com.google.api.client.googleapis.json.GoogleJsonResponseException.from(GoogleJsonResponseException.java:146) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:113) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest.newExceptionOnError(AbstractGoogleJsonClientRequest.java:40) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest$1.interceptResponse(AbstractGoogleClientRequest.java:321) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1065) ~[google-http-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:419) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.executeUnparsed(AbstractGoogleClientRequest.java:352) ~[google-api-client-1.23.0.jar:1.23.0]
+	at com.google.api.client.googleapis.services.AbstractGoogleClientRequest.execute(AbstractGoogleClientRequest.java:469) ~[google-api-client-1.23.0.jar:1.23.0]
+	at my.OrdiniGUI.Gmail.TestoEmail.sendMessage(TestoEmail.java:86) ~[main/:?]
+	at my.OrdiniGUI.OrdiniGUI.salva(OrdiniGUI.java:558) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_salvaActionPerformed(OrdiniGUI.java:2823) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2500(OrdiniGUI.java:76) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1724) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-07-22 23:22:17.449 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:22:33.815 [Thread-13] OrdiniGUI - Cliente inserito!
+
+
+
+[ERROR] 2018-07-22 23:22:34.275 [AWT-EventQueue-0] OrdiniGUI - com.google.api.client.googleapis.json.GoogleJsonResponseException: 400 Bad Request
+{
+  "code" : 400,
+  "errors" : [ {
+    "domain" : "global",
+    "message" : "Invalid to header",
+    "reason" : "invalidArgument"
+  } ],
+  "message" : "Invalid to header"
+}
+
+
+
+[INFO ] 2018-07-22 23:22:49.611 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:01.843 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:10.437 [Thread-13] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:12.610 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:15.406 [Thread-13] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:17.023 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:22.197 [Thread-13] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:23.168 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:24.015 [Thread-13] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:25.257 [Thread-14] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-07-22 23:24:26.588 [Thread-13] OrdiniGUI - Cliente Rimosso!
+

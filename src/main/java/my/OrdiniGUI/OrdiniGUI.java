@@ -17,9 +17,12 @@ import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,12 +35,17 @@ import java.net.URISyntaxException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.text.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.swing.AbstractAction;
@@ -49,6 +57,7 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -79,7 +88,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private Gmail service;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
     
-    MongoClient mongoClient = MongoClients.create("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev");
+    MongoClient mongoClient = MongoClients.create("mongodb://admin:admin1test@ds243041.mlab.com:43041/ordini-dev-mio");
     
     
     /**
@@ -144,6 +153,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         populate_table_spedizioniEvase();
         populate_table_ModificaMultipla();
         enablerClick();
+        aggiornaProgramma();
         
         
         try {
@@ -253,8 +263,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 String sql2 = "CREATE TABLE email " +
                               "(EmailConTelefono VARCHAR(5000) , " +
                               " EmailSenzaTelefono VARCHAR(5000) , " +
-                              " EmailNoLibri VARCHAR(5000)) ";
-                String sql3 = "INSERT INTO email (EmailConTelefono,EmailSenzaTelefono,EmailNoLibri) values ('','','')";
+                              " EmailNoLibri VARCHAR(5000)) " +
+                              " RitiroPrenotato VARCHAR(5000) , ";
+                String sql3 = "INSERT INTO email (EmailConTelefono,EmailSenzaTelefono,EmailNoLibri, RitiroPrenotato) values ('','','','')";
                 conn = DriverManager.getConnection("jdbc:sqlite:" + fileName);
                 Statement = conn.prepareStatement(sql1);
                 Statement.execute();
@@ -273,6 +284,40 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }
     }
    
+    private void aggiornaProgramma(){
+        try{
+            
+            String sql = "select * from email";
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            Statement = conn.prepareStatement(sql);
+            ResultSet rs = Statement.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            
+            boolean trovato = false;
+            // The column count starts from 1
+            for (int i = 1; i <= columnCount; i++ ) {
+                String name = rsmd.getColumnName(i);
+                trovato = name.equalsIgnoreCase("RitiroPrenotato");
+            }
+            
+            if(!trovato){
+                sql ="ALTER TABLE email ADD COLUMN RitiroPrenotato VARCHAR(5000)";
+                Statement = conn.prepareStatement(sql);
+                Statement.execute();
+
+                logger.info("Table Email aggiornata!");
+                JOptionPane.showMessageDialog(null, "Programma Aggiornato!", "Aggiornato",JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            Statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            logger.error("Errore in aggiornaProgramma", ex);
+            ex.printStackTrace();
+        }
+
+    }
     
     private void cancellaDb(){
         try {
@@ -440,15 +485,14 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 Statement.setString(19, Ritirato);
 
                 Statement.execute();
-                Statement.close();
-                conn.close();
+                
                 
                 this.Spedizione = null;
                 this.SpedizionePagata = null;
                 this.MPagamento = null;
 
                 //Aggiungiamo il cliente al database mongo
-                MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                MongoDatabase database = mongoClient.getDatabase("ordini-dev-mio");
                 
                 MongoCollection<Document> collection = database.getCollection("ordini");
 
@@ -476,47 +520,52 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 JTextPane pane = new JTextPane();
                 pane.setContentType("text/html");
                 
-                
-                if(Email.getText() != null && !Email.getText().equals("")){
-                    //Caso 1: Abbiamo il telefono
-                    if((Tel1.getText() != null && !Tel1.getText().equals("")) || (Tel2.getText() != null && !Tel2.getText().equals(""))){
-                        
-                        sql = "select EmailConTelefono from email";
-                        Statement = conn.prepareStatement(sql);
-                        rs = Statement.executeQuery();
-                        String testoEmail = rs.getString("EmailConTelefono");
-                        
-                        pane.setText(testoEmail);
-                        
-                        if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
-                            testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+                try{
+                    if(Email.getText() != null && !Email.getText().equals("")){
+                        //Caso 1: Abbiamo il telefono
+                        if((Tel1.getText() != null && !Tel1.getText().equals("")) || (Tel2.getText() != null && !Tel2.getText().equals(""))){
 
-                            MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
-                            TestoEmail.sendMessage(service, "me", email);
-                        } else{
-                            JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            sql = "select EmailConTelefono from email";
+                            Statement = conn.prepareStatement(sql);
+                            rs = Statement.executeQuery();
+                            String testoEmail = rs.getString("EmailConTelefono");
+
+                            pane.setText(testoEmail);
+
+                            if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                                testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+
+                                MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
+                                TestoEmail.sendMessage(service, "me", email);
+                            } else{
+                                JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } 
+                        //Caso 2: Non abbiamo il telefono
+                        else{
+
+                            sql = "select EmailSenzaTelefono from email";
+                            Statement = conn.prepareStatement(sql);
+                            rs = Statement.executeQuery();
+                            String testoEmail = rs.getString("EmailSenzaTelefono");
+
+                            pane.setText(testoEmail);
+
+                            if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                                testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
+
+                                MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
+                                TestoEmail.sendMessage(service, "me", email);
+                            } else{
+                                JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
-                    } 
-                    //Caso 2: Non abbiamo il telefono
-                    else{
 
-                        sql = "select EmailSenzaTelefono from email";
-                        Statement = conn.prepareStatement(sql);
-                        rs = Statement.executeQuery();
-                        String testoEmail = rs.getString("EmailSenzaTelefono");
-                        
-                        pane.setText(testoEmail);
-                        
-                        if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
-                            testoEmail = testoEmail.format(testoEmail,CodiceCliente.getText());
-
-                            MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Grazie per il suo ordine!", testoEmail);
-                            TestoEmail.sendMessage(service, "me", email);
-                        } else{
-                            JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        }
                     }
-                    
+                }catch(MessagingException | IOException e){
+                    logger.error(e);
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Errore nell'invio dell'email con codice cliente! (Hai inserito una email corretta?)", "Errore salva() Gmail", JOptionPane.ERROR_MESSAGE);
                 }
                 
                 pane = null;
@@ -538,18 +587,14 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
             }catch(SQLException e){
                 if (e.getErrorCode() == 19){
-                    JOptionPane.showMessageDialog(null, "Codice Cliente già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Codice Cliente già esistente", "Errore salva() SQLException", JOptionPane.ERROR_MESSAGE);
                 }else{
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, e, "Errore salva() SQLException", JOptionPane.ERROR_MESSAGE);
                 logger.error("Errore in salva", e);
                 }
-            } catch( MessagingException | IOException ex){
-                JOptionPane.showMessageDialog(null, ex);
-                logger.error("Errore in salva", ex);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
-            
         }
     }
     
@@ -809,9 +854,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 
                 ValoriSpedizione();
                 
+                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                
                 //Controllo il numero dei libri trovati: Se 0 allora invio email e poi spacchetto
                 if(val13.equals("0")){
-                    conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
                     String sql = "select EmailNoLibri from email";
                     Statement = conn.prepareStatement(sql);
                     rs = Statement.executeQuery();
@@ -821,23 +867,24 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     pane.setContentType("text/html");
                     pane.setText(testoEmail);
                     
-                    if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
-                        MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Ordine libri Oberdan15", testoEmail);
-                        TestoEmail.sendMessage(service, "me", email);
-                        
-                        Spacchettato = "SI";
-                    } else{
-                        JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    try{ 
+                        if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                            MimeMessage email = TestoEmail.createEmail(Email.getText(), "me", "Ordine libri Oberdan15", testoEmail);
+                            TestoEmail.sendMessage(service, "me", email);
+
+                            Spacchettato = "SI";
+                        } else{
+                            JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }catch(MessagingException | IOException e){
+                       logger.error(e);
+                       JOptionPane.showMessageDialog(null, "Errore nell'invio dell'email per 0 libri! (Hai inserito una email corretta?)", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
-                    
                     pane = null;
-                    rs.close();
-                    Statement.close();
-                    conn.close();
                 }
                 
                 String sql = "update ordini set CodiceCliente='"+val0+"',Nome='"+val1+"',Cognome='"+val2+"',Telefono1='"+val3+"',Telefono2='"+val4+"',Email='"+val5+"',dRitiro='"+val6+"',Spedizione='"+Spedizione+"',SpedPagata='"+SpedizionePagata+"',Indirizzo='"+val7+"',CAP='"+val8+"',Citta='"+val9+"',Provincia='"+val10+"',MPagamento='"+MPagamento+"',Tracking='"+val11+"',Note='"+val12+"',LibriTrovati='"+val13+"',Spacchettato='"+Spacchettato+"',Ritirato='"+Ritirato+"' where CodiceCliente ='"+CC+"'";
-                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                
                 Statement = conn.prepareStatement(sql);
                 Statement.execute();
                 
@@ -846,7 +893,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 MPagamento = null;
       
                 //aggiorniamo il cliente online sul database mongo
-                MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                MongoDatabase database = mongoClient.getDatabase("ordini-dev-mio");
 
                 MongoCollection<Document> collection = database.getCollection("ordini");
                 //creiamo un filter per selezionare un cliente specifico
@@ -875,9 +922,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 Calendar cal = Calendar.getInstance();
                 info.setText(dateFormat.format(cal.getTime())+": Codice Cliente "+ CodiceCliente.getText() +" modificato.");
                 
+                rs.close();
                 Statement.close();
                 conn.close();
-            }catch(Exception e){
+            }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e);
                 logger.error("Errore in aggiorna", e);
             }
@@ -885,7 +933,6 @@ public class OrdiniGUI extends javax.swing.JFrame {
             clear_fields();
         }else{
             JOptionPane.showMessageDialog(null, "Nessun cliente selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
-            
         }     
     }
     
@@ -904,7 +951,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     conn.close();
 
                     //eliminiamo il cliente su mongo
-                    MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                    MongoDatabase database = mongoClient.getDatabase("ordini-dev-mio");
 
                     MongoCollection<Document> collection = database.getCollection("ordini");
                     collection.deleteOne(eq("codiceCliente", CodiceCliente.getText()), new SingleResultCallback<DeleteResult>() {
@@ -1001,7 +1048,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
 
                     //Aggiungiamo il cliente al database mongo
-                        MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                        MongoDatabase database = mongoClient.getDatabase("ordini-dev-mio");
 
                         MongoCollection<Document> collection = database.getCollection("ordini");
 
@@ -1030,7 +1077,131 @@ public class OrdiniGUI extends javax.swing.JFrame {
             }
         }
     }
+    
+    private void visualizzaEmail(){
+        int selezione = cbEmailImpostazioni.getSelectedIndex();
+        String sql;
+        
+        //Usiamo uno switch per scegliere quali delle tre opzioni usare
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            switch (selezione){
+                case 0: sql = "select EmailConTelefono from email";
+                        Statement = conn.prepareStatement(sql);
+                        ResultSet rs1 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs1.getString("EmailConTelefono"));
+                        rs1.close();
+                        break;
+                case 1: sql = "select EmailSenzaTelefono from email";
+                        Statement = conn.prepareStatement(sql);
+                        ResultSet rs2 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs2.getString("EmailSenzaTelefono"));
+                        rs2.close();
+                        break;
+                case 2: sql = "select EmailNoLibri from email";
+                        Statement = conn.prepareStatement(sql);
+                        ResultSet rs3 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs3.getString("EmailNoLibri"));
+                        rs3.close();
+                        break;
+                case 3: sql = "select RitiroPrenotato from email";
+                        Statement = conn.prepareStatement(sql);
+                        ResultSet rs4 = Statement.executeQuery();
+                        epEmailImpostazioni.setText(rs4.getString("RitiroPrenotato"));
+                        rs4.close();
+                        break;
+            }
+            Statement.close();
+            
+            conn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            logger.error("Errore di visualizzaEmail", ex);
+        }
+    }
 
+    
+    class EmailWorker extends SwingWorker<Integer, Integer>{
+        ArrayList list;
+        ArrayList<String> errori = new ArrayList<>();
+        
+        public EmailWorker(ArrayList list){
+            this.list = list;
+        }
+        
+        @Override
+        protected Integer doInBackground() throws Exception
+        {
+            DateFormat dateFormat = new SimpleDateFormat("EEEE dd/MM", Locale.ITALIAN);
+            Date domani = new Date();
+            domani.setDate(domani.getDate() + 1);
+            String dataDomani = dateFormat.format(domani);
+            
+            try
+            {
+                String sql;
+                //Se abbiamo l'email allora entriamo dentro il metodo
+                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                
+                JTextPane pane = new JTextPane();
+                pane.setContentType("text/html");
+                
+                
+                
+                if(!list.isEmpty()){
+                    sql = "select RitiroPrenotato from email";
+                    Statement = conn.prepareStatement(sql);
+                    rs = Statement.executeQuery();
+                    String testoEmail = rs.getString("RitiroPrenotato");
+                    pane.setText(testoEmail);
+                    
+                    if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
+                        for(int i = 0; i<list.size(); i++){
+                            try{
+                                testoEmail = testoEmail.format(testoEmail,dataDomani);
+
+                                MimeMessage email = TestoEmail.createEmail((String)list.get(i), "me", "Promemoria Ritiro Oberdan Banco 15!", testoEmail);
+                                TestoEmail.sendMessage(service, "me", email);
+
+                            } catch(HeadlessException | MessagingException | IOException e){
+                                e.printStackTrace();
+                                logger.error(e);
+                                errori.add((String)list.get(i));
+                                continue;
+                            }
+                        }
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Nessun testo Email inserito. Inserire un testo nelle impostazioni e riprovare.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                }
+                
+                pane = null;
+                Statement.close();
+                conn.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, e, "Errore in EmailWorker()", JOptionPane.ERROR_MESSAGE);
+                logger.error(e);
+            }
+            return null;
+        }
+        
+        @Override
+        protected void done(){
+            if(errori.isEmpty()){
+                String emailInviate = Integer.toString(list.size());
+                JOptionPane.showMessageDialog(null, emailInviate + "/" + emailInviate +" Email inviate con successo!", "Report", JOptionPane.INFORMATION_MESSAGE);
+            } else{
+                String emailInviate = Integer.toString(list.size() - errori.size());
+                JOptionPane.showMessageDialog(null, emailInviate + "/" + Integer.toString(list.size()) + " Email inviate con successo.\nErrori di invio: " + errori, "Report", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1056,7 +1227,6 @@ public class OrdiniGUI extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         cbEmailImpostazioni = new javax.swing.JComboBox<>();
         lblEmailImpostazioni = new javax.swing.JLabel();
-        visualizzaEmailImpostazioni = new javax.swing.JButton();
         salvaEmailImpostazioni = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane10 = new javax.swing.JScrollPane();
@@ -1140,6 +1310,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         btn_stampadomani = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl_ritiridomani = new javax.swing.JTable();
+        invioEmailRicordo = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tbl_ritirigiorno = new javax.swing.JTable();
@@ -1287,17 +1458,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Database", jPanel6);
 
-        cbEmailImpostazioni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Email con Telefono", "Email senza Telefono", "Nessun libro Trovato" }));
+        cbEmailImpostazioni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Email con Telefono", "Email senza Telefono", "Nessun libro Trovato", "Ritiro Prenotato" }));
 
         lblEmailImpostazioni.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblEmailImpostazioni.setText("IMPOSTAZIONI DATABASE CLIENTI");
-
-        visualizzaEmailImpostazioni.setText("Visualizza");
-        visualizzaEmailImpostazioni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                visualizzaEmailImpostazioniActionPerformed(evt);
-            }
-        });
 
         salvaEmailImpostazioni.setText("Salva");
         salvaEmailImpostazioni.addActionListener(new java.awt.event.ActionListener() {
@@ -1330,9 +1494,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         .addContainerGap(389, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(cbEmailImpostazioni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(visualizzaEmailImpostazioni)
-                        .addGap(136, 136, 136)
+                        .addGap(263, 263, 263)
                         .addComponent(salvaEmailImpostazioni)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1346,13 +1508,18 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbEmailImpostazioni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(visualizzaEmailImpostazioni)
                     .addComponent(salvaEmailImpostazioni)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        cbEmailImpostazioni.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent arg0) {
+                visualizzaEmail();
+            }
+        });
 
         jTabbedPane1.addTab("Email", jPanel11);
 
@@ -2033,6 +2200,13 @@ public class OrdiniGUI extends javax.swing.JFrame {
     tbl_ritiridomani.setDefaultEditor(Object.class, null);
     jScrollPane3.setViewportView(tbl_ritiridomani);
 
+    invioEmailRicordo.setText("Invio Email");
+    invioEmailRicordo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            invioEmailRicordoActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
     jPanel3.setLayout(jPanel3Layout);
     jPanel3Layout.setHorizontalGroup(
@@ -2042,6 +2216,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addComponent(btn_ritiridomani)
             .addGap(18, 18, 18)
             .addComponent(btn_stampadomani)
+            .addGap(107, 107, 107)
+            .addComponent(invioEmailRicordo)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2052,7 +2228,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btn_ritiridomani)
-                .addComponent(btn_stampadomani))
+                .addComponent(btn_stampadomani)
+                .addComponent(invioEmailRicordo))
             .addGap(41, 41, 41)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))
     );
@@ -2691,8 +2868,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_stampaoggiActionPerformed
 
     private void btn_ritiridomaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ritiridomaniActionPerformed
-
-        try{
+    try{
             DateFormat dateFormat = new SimpleDateFormat("dd/MM");
             Date domani = new Date();
             domani.setDate(domani.getDate() + 1);
@@ -2741,6 +2917,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mn_esciActionPerformed
 
     private void mn_impostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mn_impostazioniActionPerformed
+        cbEmailImpostazioni.setSelectedIndex(0);
+        visualizzaEmail();
         
         Impostazioni.setVisible(true);
         Impostazioni.setMinimumSize(new Dimension(727, 460));
@@ -2883,7 +3061,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             DefaultTableModel tm = (DefaultTableModel)tblModificaMultipla.getModel(); 
             conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             
-            MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+            MongoDatabase database = mongoClient.getDatabase("ordini-dev-mio");
             MongoCollection<Document> collection = database.getCollection("ordini");
             
             //Applica spacchettato oppure ritirato per ognuna
@@ -2950,43 +3128,6 @@ public class OrdiniGUI extends javax.swing.JFrame {
         InvioEmail.setMinimumSize(new Dimension(916, 611));
     }//GEN-LAST:event_emailTempActionPerformed
 
-    private void visualizzaEmailImpostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizzaEmailImpostazioniActionPerformed
-        int selezione = cbEmailImpostazioni.getSelectedIndex();
-        String sql;
-        
-        //Usiamo uno switch per scegliere quali delle tre opzioni usare
-        try {
-            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-            switch (selezione){
-                case 0: sql = "select EmailConTelefono from email";
-                        Statement = conn.prepareStatement(sql);
-                        ResultSet rs1 = Statement.executeQuery();
-                        epEmailImpostazioni.setText(rs1.getString("EmailConTelefono"));
-                        rs1.close();
-                        break;
-                case 1: sql = "select EmailSenzaTelefono from email";
-                        Statement = conn.prepareStatement(sql);
-                        ResultSet rs2 = Statement.executeQuery();
-                        epEmailImpostazioni.setText(rs2.getString("EmailSenzaTelefono"));
-                        rs2.close();
-                        break;
-                case 2: sql = "select EmailNoLibri from email";
-                        Statement = conn.prepareStatement(sql);
-                        ResultSet rs3 = Statement.executeQuery();
-                        epEmailImpostazioni.setText(rs3.getString("EmailNoLibri"));
-                        rs3.close();
-                        break;
-            }
-            Statement.close();
-            
-            conn.close();
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            logger.error("Errore di visualizzaEmail", ex);
-        }
-    }//GEN-LAST:event_visualizzaEmailImpostazioniActionPerformed
-
     private void salvaEmailImpostazioniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvaEmailImpostazioniActionPerformed
         int selezione = cbEmailImpostazioni.getSelectedIndex();
         String sql;
@@ -3006,6 +3147,10 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         Statement = conn.prepareStatement(sql);
                         Statement.execute();
                         break;
+                case 3: sql = "update email set RitiroPrenotato='"+testoEmail+"'";
+                        Statement = conn.prepareStatement(sql);
+                        Statement.execute();
+                        break;
             }
             
             Statement.close();
@@ -3022,6 +3167,34 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private void esportaMongoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esportaMongoActionPerformed
         esporta();
     }//GEN-LAST:event_esportaMongoActionPerformed
+
+    private void invioEmailRicordoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invioEmailRicordoActionPerformed
+        try{
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM");
+            Date domani = new Date();
+            domani.setDate(domani.getDate() + 1);
+            String sql = "select CodiceCliente, Nome, Cognome, Email, LibriTrovati from ordini where dRitiro='"+dateFormat.format(domani)+"' AND Ritirato = 'NO' AND Spacchettato = 'NO' ORDER BY CodiceCliente ASC";
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            Statement = conn.prepareStatement(sql);
+            rs = Statement.executeQuery();
+            ArrayList<String> emails = new ArrayList<>();
+            
+            while(rs.next()){
+                String email = rs.getString("Email");
+                emails.add(email);
+            }
+            System.out.println(emails);
+            
+            new EmailWorker(emails).execute();
+            
+            Statement.close();
+            conn.close();
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+            logger.error("Errore in btn_ritiridomaniActionPerformed", e);
+
+        }
+    }//GEN-LAST:event_invioEmailRicordoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3109,6 +3282,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTextField giornoRitiro;
     private javax.swing.JLabel info;
     private javax.swing.JButton invioEmail;
+    private javax.swing.JButton invioEmailRicordo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3193,6 +3367,5 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTable tbl_spedizioni;
     private javax.swing.JTable tbl_spedizioniEvase;
     private javax.swing.JEditorPane testo;
-    private javax.swing.JButton visualizzaEmailImpostazioni;
     // End of variables declaration//GEN-END:variables
 }

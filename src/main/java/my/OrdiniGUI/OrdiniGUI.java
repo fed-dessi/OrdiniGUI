@@ -1802,6 +1802,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
     note.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
     note.setLineWrap(true);
     note.setRows(5);
+    note.setMaximumSize(new java.awt.Dimension(104, 26));
+    note.setPreferredSize(new java.awt.Dimension(104, 26));
     jScrollPane1.setViewportView(note);
 
     info.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

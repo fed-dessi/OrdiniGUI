@@ -8,6 +8,7 @@ package my.OrdiniGUI;
 
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import com.mongodb.ConnectionString;
 import com.mongodb.async.SingleResultCallback;
 import com.mongodb.async.client.MongoClient;
 import com.mongodb.async.client.MongoClients;
@@ -30,8 +31,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.text.*;
@@ -43,9 +48,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.swing.AbstractAction;
@@ -61,12 +63,15 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import my.OrdiniGUI.Gmail.Credentials;
 import my.OrdiniGUI.Gmail.TestoEmail;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 
 /**
@@ -87,8 +92,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private String MPagamento;
     private Gmail service;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
-    
-    MongoClient mongoClient = MongoClients.create("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev");
+    private static final String version = "1.0.5";
+   
+    MongoClient mongoClient = MongoClients.create(new ConnectionString("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev?maxIdleTimeMS=60000"));
     
     
     /**
@@ -285,38 +291,89 @@ public class OrdiniGUI extends javax.swing.JFrame {
     }
    
     private void aggiornaProgramma(){
-        try{
+        try {
+            URL url = new URL("http://www.oberdan15.it/OrdiniVersion.xml");
+            InputStream stream = url.openStream();
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            org.w3c.dom.Document doc = dBuilder.parse(stream);
+            doc.getDocumentElement().normalize();
             
-            String sql = "select * from email";
-            conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-            Statement = conn.prepareStatement(sql);
-            ResultSet rs = Statement.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnCount = rsmd.getColumnCount();
+            NodeList nList = doc.getElementsByTagName("Version");
             
-            boolean trovato = false;
-            // The column count starts from 1
-            for (int i = 1; i <= columnCount; i++ ) {
-                String name = rsmd.getColumnName(i);
-                trovato = name.equalsIgnoreCase("RitiroPrenotato");
-            }
+            Node versioneUpdate = nList.item(0);
+            System.out.println(versioneUpdate.getTextContent());
+            System.out.println(compareVersion(versioneUpdate.getTextContent()));
             
-            if(!trovato){
-                sql ="ALTER TABLE email ADD COLUMN RitiroPrenotato VARCHAR(5000)";
-                Statement = conn.prepareStatement(sql);
-                Statement.execute();
+            if(compareVersion(versioneUpdate.getTextContent()) == -1){
+                String[] options = new String[2];
+                options[0] = "Download";
+                options[1] = "Annulla";
+                int opt = JOptionPane.showOptionDialog(null,"Nuovo aggiornamento rilevato!","Aggiornamento Programma", 0,JOptionPane.INFORMATION_MESSAGE,null,options,null);
+            
+                if(opt == 0){
+                    System.out.println("true");
+                    //La versione del programma e' inferiore, mi scarico il nuovo programma
+                    nList = doc.getElementsByTagName("URL");
+                    Node urlUpdate = nList.item(0);
+                    System.out.println(urlUpdate.getTextContent());
 
-                logger.info("Table Email aggiornata!");
-                JOptionPane.showMessageDialog(null, "Programma Aggiornato!", "Aggiornato",JOptionPane.INFORMATION_MESSAGE);
+
+
+                    //Determino la cartella di installazione
+                    File temp = new File(OrdiniGUI.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                    String jarDir = temp.getParentFile().getPath();
+                    //Apro un input stream con Java NIO per scaricarmi il setup di aggiornamento
+                    URL website = new URL(urlUpdate.getTextContent());
+                    ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+                    FileOutputStream fos = new FileOutputStream(jarDir + "\\Setup.exe");
+
+                    fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+
+                    JOptionPane.showMessageDialog(null, "Aggiornamento Scaricato!\n\nPremere OK per installarlo", "Scaricato",JOptionPane.INFORMATION_MESSAGE);
+                    
+                    rbc.close();
+                    fos.close();
+                    
+                    try {
+                        Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+ jarDir + "\\Setup");
+                        System.exit(0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        logger.error("Errore in aggiornaProgramma()",e);
+                        JOptionPane.showMessageDialog(null, "Errore in aggiornaProgramma", "Errore",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
-            
-            Statement.close();
-            conn.close();
-        } catch (SQLException ex) {
-            logger.error("Errore in aggiornaProgramma", ex);
+                
+        } catch (Exception ex) {
+            logger.error("Errore in aggiornaProgramma()",ex);
+            JOptionPane.showMessageDialog(null, "Errore in aggiornaProgramma", "Errore",JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
 
+    }
+    /*
+     *   if version > that(external xml) = 1
+     *   if version < that = -1
+     *   if version == that = 0
+     *   if that == null = 1
+     */
+    private int compareVersion(String that) {
+        if(that == null)
+            return 1;
+        String[] thisParts = version.split("\\.");
+        String[] thatParts = that.split("\\.");
+        int length = Math.max(thisParts.length, thatParts.length);
+        for(int i = 0; i < length; i++) {
+            int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0;
+            int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
+            if(thisPart < thatPart)
+                return -1;
+            if(thisPart > thatPart)
+                return 1;
+        }
+        return 0;
     }
     
     private void cancellaDb(){
@@ -510,6 +567,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                         } else {
                             logger.error(t.toString());
                             JOptionPane.showMessageDialog(null, "Errore in inserisci()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                            t.printStackTrace();
                         }
                     }
                 });

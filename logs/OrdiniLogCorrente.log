@@ -1826,3 +1826,35 @@ Caused by: java.io.IOException: CreateProcess error=740, The requested operation
 	at java.lang.ProcessImpl.start(ProcessImpl.java:137) ~[?:1.8.0_144]
 	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1029) ~[?:1.8.0_144]
 	... 20 more
+
+
+[ERROR] 2018-08-07 22:40:22.623 [SwingWorker-pool-2-thread-1] OrdiniGUI - java.text.ParseException: Unparseable date: "09/08"
+
+
+
+[ERROR] 2018-08-07 22:40:39.170 [SwingWorker-pool-2-thread-2] OrdiniGUI - java.text.ParseException: Unparseable date: "09/08"
+
+
+
+[ERROR] 2018-08-07 22:41:16.081 [SwingWorker-pool-2-thread-1] OrdiniGUI - java.text.ParseException: Unparseable date: "09/08"
+
+
+
+[ERROR] 2018-08-07 22:41:28.407 [SwingWorker-pool-2-thread-2] OrdiniGUI - java.text.ParseException: Unparseable date: "09/08"
+
+
+
+[ERROR] 2018-08-07 22:42:40.092 [SwingWorker-pool-2-thread-1] OrdiniGUI - java.text.ParseException: Unparseable date: "09/08"
+
+
+
+[ERROR] 2018-08-07 22:47:24.810 [SwingWorker-pool-2-thread-1] OrdiniGUI - java.text.ParseException: Unparseable date: "09/08/2018"
+
+
+
+[ERROR] 2018-08-07 22:50:15.905 [SwingWorker-pool-2-thread-1] OrdiniGUI - org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+
+
+
+[ERROR] 2018-08-07 22:52:46.798 [SwingWorker-pool-2-thread-1] OrdiniGUI - org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+

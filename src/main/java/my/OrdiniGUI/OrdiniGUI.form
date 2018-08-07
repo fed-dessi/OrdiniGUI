@@ -1690,6 +1690,8 @@
                       <Component id="giornoRitiro" min="-2" pref="106" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                       <Component id="btn_ritiriPerGiorno" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="emailGiornoPromemoria" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane4" alignment="1" pref="1219" max="32767" attributes="0"/>
@@ -1701,7 +1703,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btn_ritiriPerGiorno" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btn_ritiriPerGiorno" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="emailGiornoPromemoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -1776,6 +1781,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ritiriPerGiornoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="emailGiornoPromemoria">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Invia Email Promemoria"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailGiornoPromemoriaActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

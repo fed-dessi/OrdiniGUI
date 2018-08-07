@@ -48,6 +48,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.swing.AbstractAction;
@@ -1182,30 +1184,32 @@ public class OrdiniGUI extends javax.swing.JFrame {
     
     class EmailWorker extends SwingWorker<Integer, Integer>{
         ArrayList list;
+        String data;
         ArrayList<String> errori = new ArrayList<>();
         
-        public EmailWorker(ArrayList list){
+        public EmailWorker(ArrayList list, String data){
             this.list = list;
+            this.data = data;
         }
         
         @Override
         protected Integer doInBackground() throws Exception
         {
-            DateFormat dateFormat = new SimpleDateFormat("EEEE dd/MM", Locale.ITALIAN);
-            Date domani = new Date();
-            domani.setDate(domani.getDate() + 1);
-            String dataDomani = dateFormat.format(domani);
             
             try
             {
+                //Otteniamo la data inserita nell'input box
+                DateFormat initialDate = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = initialDate.parse(data + "/" + Long.toString(Calendar.getInstance().get(Calendar.YEAR)));
+                //Trasformiamo la data in un formato che ci fa comodo (Giorno settimana,  giorno mese/mese)
+                DateFormat dateFormat = new SimpleDateFormat("EEEE dd/MM", Locale.ITALIAN);
+                String dataRitiro = dateFormat.format(date);
+                
                 String sql;
-                //Se abbiamo l'email allora entriamo dentro il metodo
                 conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
                 
                 JTextPane pane = new JTextPane();
                 pane.setContentType("text/html");
-                
-                
                 
                 if(!list.isEmpty()){
                     sql = "select RitiroPrenotato from email";
@@ -1217,7 +1221,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     if(testoEmail != null && !testoEmail.equals("") && pane.getDocument().getLength()-1 != 0){
                         for(int i = 0; i<list.size(); i++){
                             try{
-                                testoEmail = testoEmail.format(testoEmail,dataDomani);
+                                testoEmail = testoEmail.format(testoEmail,dataRitiro);
 
                                 MimeMessage email = TestoEmail.createEmail((String)list.get(i), "me", "Promemoria Ritiro Oberdan Banco 15!", testoEmail);
                                 TestoEmail.sendMessage(service, "me", email);
@@ -1239,7 +1243,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 Statement.close();
                 conn.close();
             }
-            catch (SQLException e)
+            catch (SQLException | ParseException e)
             {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, e, "Errore in EmailWorker()", JOptionPane.ERROR_MESSAGE);
@@ -1375,6 +1379,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         giornoRitiro = new javax.swing.JTextField();
         btn_ritiriPerGiorno = new javax.swing.JButton();
+        emailGiornoPromemoria = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         btn_spedizioni = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -2340,6 +2345,13 @@ public class OrdiniGUI extends javax.swing.JFrame {
         }
     });
 
+    emailGiornoPromemoria.setText("Invia Email Promemoria");
+    emailGiornoPromemoria.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            emailGiornoPromemoriaActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
     jPanel4.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
@@ -2351,6 +2363,8 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addComponent(giornoRitiro, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(85, 85, 85)
             .addComponent(btn_ritiriPerGiorno)
+            .addGap(33, 33, 33)
+            .addComponent(emailGiornoPromemoria)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
     );
@@ -2360,7 +2374,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
             .addContainerGap()
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addComponent(btn_ritiriPerGiorno)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_ritiriPerGiorno)
+                        .addComponent(emailGiornoPromemoria))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addGap(3, 3, 3)
@@ -3243,18 +3259,53 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 String email = rs.getString("Email");
                 emails.add(email);
             }
-            System.out.println(emails);
-            
-            new EmailWorker(emails).execute();
             
             Statement.close();
             conn.close();
+            
+            new EmailWorker(emails, dateFormat.format(domani)).execute();
+            
+            
         }catch (SQLException e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Errore in invioEmailRicordoActionPerformed", "Errore", JOptionPane.ERROR_MESSAGE);
             logger.error("Errore in btn_ritiridomaniActionPerformed", e);
 
         }
     }//GEN-LAST:event_invioEmailRicordoActionPerformed
+
+    private void emailGiornoPromemoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailGiornoPromemoriaActionPerformed
+        
+        if(giornoRitiro.getText()!= null && !giornoRitiro.getText().equals("")){
+            try{
+                String sql = "select CodiceCliente, Nome, Cognome, Email, LibriTrovati from ordini where dRitiro='"+giornoRitiro.getText()+"' AND Ritirato = 'NO' AND Spacchettato = 'NO' ORDER BY CodiceCliente ASC";
+                conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+                Statement = conn.prepareStatement(sql);
+                rs = Statement.executeQuery();
+                ArrayList<String> emails = new ArrayList<>();
+
+                while(rs.next()){
+                    String email = rs.getString("Email");
+                    emails.add(email);
+                }
+                System.out.println(emails);
+                
+                Statement.close();
+                conn.close();
+                
+                new EmailWorker(emails, giornoRitiro.getText()).execute();
+
+                
+            }catch (SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+                logger.error("Errore in emailGiornoPromemoriaActionPerformed", e);
+                e.printStackTrace();
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Inserisci un giorno per inviare le email!", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_emailGiornoPromemoriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3334,6 +3385,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private javax.swing.JTextField cercaEvasi;
     private javax.swing.JLabel dbCorrente;
     private javax.swing.JTextField destinatario;
+    private javax.swing.JButton emailGiornoPromemoria;
     private javax.swing.JButton emailTemp;
     private javax.swing.JTextPane epEmailImpostazioni;
     private javax.swing.JButton esportaMongo;

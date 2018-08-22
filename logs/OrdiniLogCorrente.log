@@ -1858,3 +1858,120 @@ Caused by: java.io.IOException: CreateProcess error=740, The requested operation
 
 [ERROR] 2018-08-07 22:52:46.798 [SwingWorker-pool-2-thread-1] OrdiniGUI - org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
 
+
+
+[ERROR] 2018-08-22 21:01:16.700 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiornaProgramma()
+
+java.net.UnknownHostException: www.oberdan15.it
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:184) ~[?:1.8.0_144]
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172) ~[?:1.8.0_144]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392) ~[?:1.8.0_144]
+	at java.net.Socket.connect(Socket.java:589) ~[?:1.8.0_144]
+	at java.net.Socket.connect(Socket.java:538) ~[?:1.8.0_144]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:180) ~[?:1.8.0_144]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:463) ~[?:1.8.0_144]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:558) ~[?:1.8.0_144]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:242) ~[?:1.8.0_144]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:339) ~[?:1.8.0_144]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:357) ~[?:1.8.0_144]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1202) ~[?:1.8.0_144]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1138) ~[?:1.8.0_144]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1032) ~[?:1.8.0_144]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:966) ~[?:1.8.0_144]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1546) ~[?:1.8.0_144]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1474) ~[?:1.8.0_144]
+	at java.net.URL.openStream(URL.java:1045) ~[?:1.8.0_144]
+	at my.OrdiniGUI.OrdiniGUI.aggiornaProgramma(OrdiniGUI.java:298) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.<init>(OrdiniGUI.java:164) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$55.run(OrdiniGUI.java:3340) [main/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:756) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:726) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[ERROR] 2018-08-22 21:02:32.036 [cluster-5b7db2fc44fb031fb06b9e77] OrdiniGUI - com.mongodb.MongoTimeoutException: Timed out after 30000 ms while waiting for a server that matches WritableServerSelector. Client view of cluster state is {type=UNKNOWN, servers=[{address=ds129733.mlab.com:29733, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketException: ds129733.mlab.com}, caused by {java.net.UnknownHostException: ds129733.mlab.com}}]
+
+
+
+[ERROR] 2018-08-22 21:03:27.932 [AWT-EventQueue-0] OrdiniGUI - java.net.UnknownHostException: accounts.google.com
+
+
+
+[ERROR] 2018-08-22 21:06:11.594 [AWT-EventQueue-0] OrdiniGUI - Errore in aggiorna
+
+org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (near "a": syntax error)
+	at org.sqlite.core.DB.newSQLException(DB.java:909) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:921) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.throwex(DB.java:886) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.NativeDB.prepare_utf8(Native Method) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.NativeDB.prepare(NativeDB.java:127) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.DB.prepare(DB.java:227) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:41) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:30) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:19) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:48) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:263) ~[sqlite-jdbc-3.16.1.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:235) ~[sqlite-jdbc-3.16.1.jar:?]
+	at my.OrdiniGUI.OrdiniGUI.aggiorna(OrdiniGUI.java:948) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.btn_aggiornaActionPerformed(OrdiniGUI.java:2902) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI.access$2600(OrdiniGUI.java:83) [main/:?]
+	at my.OrdiniGUI.OrdiniGUI$17.actionPerformed(OrdiniGUI.java:1797) [main/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022) [?:1.8.0_144]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402) [?:1.8.0_144]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259) [?:1.8.0_144]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252) [?:1.8.0_144]
+	at java.awt.Component.processMouseEvent(Component.java:6533) [?:1.8.0_144]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324) [?:1.8.0_144]
+	at java.awt.Component.processEvent(Component.java:6298) [?:1.8.0_144]
+	at java.awt.Container.processEvent(Container.java:2236) [?:1.8.0_144]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525) [?:1.8.0_144]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466) [?:1.8.0_144]
+	at java.awt.Container.dispatchEventImpl(Container.java:2280) [?:1.8.0_144]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_144]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_144]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_144]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_144]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_144]
+	at java.security.AccessController.doPrivileged(Native Method) [?:1.8.0_144]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_144]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_144]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_144]
+
+
+[INFO ] 2018-08-22 21:08:20.081 [Thread-14] OrdiniGUI - Cliente modificato!
+
+
+
+[INFO ] 2018-08-22 21:08:28.304 [Thread-13] OrdiniGUI - Cliente Rimosso!
+
+
+
+[INFO ] 2018-08-22 21:08:30.986 [Thread-14] OrdiniGUI - Cliente Rimosso!
+

@@ -94,7 +94,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private String MPagamento;
     private Gmail service;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
-    private static final String version = "1.0.6";
+    private static final String version = "1.0.7";
    
     MongoClient mongoClient = MongoClients.create(new ConnectionString("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev?maxIdleTimeMS=60000"));
     
@@ -549,7 +549,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 this.Spedizione = null;
                 this.SpedizionePagata = null;
                 this.MPagamento = null;
-
+                
                 //Aggiungiamo il cliente al database mongo
                 MongoDatabase database = mongoClient.getDatabase("ordini-dev");
                 
@@ -891,7 +891,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 String val2 = Cognome.getText().replace("'","''");
                 String val3 = Tel1.getText();
                 String val4 = Tel2.getText();
-                String val5 = Email.getText();
+                String val5 = Email.getText().replace("'","''");
                 String val6 = DataRitiro.getText();
                 String val7 = Indirizzo.getText().replace("'","''");
                 String val8 = CAP.getText();

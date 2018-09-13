@@ -94,7 +94,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private String MPagamento;
     private Gmail service;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
-    private static final String version = "1.0.7";
+    private static final String version = "1.0.8";
    
     MongoClient mongoClient = MongoClients.create(new ConnectionString("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev?maxIdleTimeMS=60000"));
     

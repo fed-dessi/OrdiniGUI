@@ -956,25 +956,44 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 MongoDatabase database = mongoClient.getDatabase("ordini-dev");
 
                 MongoCollection<Document> collection = database.getCollection("ordini");
-                //creiamo un filter per selezionare un cliente specifico
-                Bson filter = new Document("codiceCliente", CC); 
-                Bson newValue = new Document("codiceCliente", val0).append("nome", val1).append("cognome", val2).append("dataRitiro", val6);      
-                Bson updateOperationDocument = new Document("$set", newValue);
                 
-                //aggiorniamo il cliente con i dati specificati
-                collection.updateMany(filter, updateOperationDocument,
-                new SingleResultCallback<UpdateResult>() {
-                    @Override
-                    public void onResult(final UpdateResult result, final Throwable t) {
-                        
-                        if(t == null){
-                            logger.info("Cliente modificato!");
-                        } else {
-                            logger.error(t.toString());
-                            JOptionPane.showMessageDialog(null, "Errore in aggiorna()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                //Cancelliamo il cliente se e' stato spacchettato
+                if(spacchettato.isSelected()){
+                    collection.deleteOne(eq("codiceCliente", val0), new SingleResultCallback<DeleteResult>() {
+                        @Override
+                        public void onResult(final DeleteResult result, final Throwable t) {
+                            if(t == null){
+                                logger.info("Cliente Rimosso!");
+                            } else {
+                                logger.error(t.toString());
+                                JOptionPane.showMessageDialog(null, "Errore in elimina()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
-                    }
-                });
+                    });
+                }else{
+                    //creiamo un filter per selezionare un cliente specifico
+                    Bson filter = new Document("codiceCliente", CC); 
+                    Bson newValue = new Document("codiceCliente", val0).append("nome", val1).append("cognome", val2).append("dataRitiro", val6);      
+                    Bson updateOperationDocument = new Document("$set", newValue);
+
+                    //aggiorniamo il cliente con i dati specificati
+                    collection.updateMany(filter, updateOperationDocument,
+                    new SingleResultCallback<UpdateResult>() {
+                        @Override
+                        public void onResult(final UpdateResult result, final Throwable t) {
+
+                            if(t == null){
+                                logger.info("Cliente modificato!");
+                            } else {
+                                logger.error(t.toString());
+                                JOptionPane.showMessageDialog(null, "Errore in aggiorna()", "Errore MongoDB", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    });
+                }
+                
+                
+                
  
                 this.CC = null;
                 

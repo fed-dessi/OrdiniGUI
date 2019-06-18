@@ -1975,3 +1975,11 @@ org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (near "
 
 [INFO ] 2018-08-22 21:08:30.986 [Thread-14] OrdiniGUI - Cliente Rimosso!
 
+
+
+[INFO ] 2019-06-18 20:45:22.562 [async-channel-group-0-handler-executor] OrdiniGUI - Cliente inserito!
+
+
+
+[INFO ] 2019-06-18 20:49:03.990 [async-channel-group-0-handler-executor] OrdiniGUI - Cliente Rimosso!
+

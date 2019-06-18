@@ -94,9 +94,9 @@ public class OrdiniGUI extends javax.swing.JFrame {
     private String MPagamento;
     private Gmail service;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(OrdiniGUI.class);
-    private static final String version = "1.0.8";
+    private static final String version = "1.0.9";
    
-    MongoClient mongoClient = MongoClients.create(new ConnectionString("mongodb://admin:oberdan15@ds129733.mlab.com:29733/ordini-dev?maxIdleTimeMS=60000"));
+    MongoClient mongoClient = MongoClients.create(new ConnectionString("mongodb+srv://admin:oberdan15@cluster0-tg0mj.mongodb.net/ritiri?maxIdleTimeMS=60000"));
     
     
     /**
@@ -551,7 +551,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 this.MPagamento = null;
                 
                 //Aggiungiamo il cliente al database mongo
-                MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                MongoDatabase database = mongoClient.getDatabase("ritiri");
                 
                 MongoCollection<Document> collection = database.getCollection("ordini");
 
@@ -953,7 +953,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                 MPagamento = null;
       
                 //aggiorniamo il cliente online sul database mongo
-                MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                MongoDatabase database = mongoClient.getDatabase("ritiri");
 
                 MongoCollection<Document> collection = database.getCollection("ordini");
                 
@@ -1030,7 +1030,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
                     conn.close();
 
                     //eliminiamo il cliente su mongo
-                    MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                    MongoDatabase database = mongoClient.getDatabase("ritiri");
 
                     MongoCollection<Document> collection = database.getCollection("ordini");
                     collection.deleteOne(eq("codiceCliente", CodiceCliente.getText()), new SingleResultCallback<DeleteResult>() {
@@ -1127,7 +1127,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
 
 
                     //Aggiungiamo il cliente al database mongo
-                        MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+                        MongoDatabase database = mongoClient.getDatabase("ritiri");
 
                         MongoCollection<Document> collection = database.getCollection("ordini");
 
@@ -3156,7 +3156,7 @@ public class OrdiniGUI extends javax.swing.JFrame {
             DefaultTableModel tm = (DefaultTableModel)tblModificaMultipla.getModel(); 
             conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             
-            MongoDatabase database = mongoClient.getDatabase("ordini-dev");
+            MongoDatabase database = mongoClient.getDatabase("ritiri");
             MongoCollection<Document> collection = database.getCollection("ordini");
             
             //Applica spacchettato oppure ritirato per ognuna
